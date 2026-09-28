@@ -33,6 +33,8 @@ mdbook build ko
 
 빌드가 완료되었습니다. 파일 목록을 대조해 누락된 Markdown 파일이 없음을 확인했고, 한국어판의 내부 상대 링크를 검사해 누락된 대상이 없음을 확인했습니다. 원문과 한국어판의 fenced 코드 블록에서는 주석을 제외한 코드 줄이 모두 일치했습니다. 저장소의 `.markdownlint.jsonc` 설정으로 markdownlint-cli 0.49.1을 실행했으며, 한국어판과 README의 링크는 원본 CI가 사용하는 markdown-link-check 3.10.3으로 검사했습니다. 두 검사와 `git diff --check`를 모두 통과했습니다.
 
+[GitHub Pages 미리보기](https://rkttu.github.io/rust-for-dotnet-devs/)는 포크의 [`ko-translation` 브랜치](https://github.com/rkttu/rust-for-dotnet-devs/tree/ko-translation)를 [Pages 워크플로](../.github/workflows/publish-ko-pages.yml)로 빌드해 게시합니다. `ko/` 또는 워크플로 파일을 이 브랜치에 푸시하면 다시 배포합니다. 첫 [배포 실행](https://github.com/rkttu/rust-for-dotnet-devs/actions/runs/36365073028)은 성공했고, 공개 사이트의 홈, 언어 장, CSS, 스크립트, 삽화는 HTTP 200으로 확인했습니다.
+
 ## 단계별 커밋 기록
 
 각 단계는 [포크의 `ko-translation` 브랜치](https://github.com/rkttu/rust-for-dotnet-devs/tree/ko-translation)에 별도로 커밋하고 푸시했습니다.
@@ -49,6 +51,8 @@ mdbook build ko
 | [`408b584`](https://github.com/rkttu/rust-for-dotnet-devs/commit/408b584) | LINQ와 반복자 |
 | [`90caf92`](https://github.com/rkttu/rust-for-dotnet-devs/commit/90caf92) | 비동기 프로그래밍 |
 | [`17b93e4`](https://github.com/rkttu/rust-for-dotnet-devs/commit/17b93e4) | 예제의 설명 주석 |
+| [`78c65fc`](https://github.com/rkttu/rust-for-dotnet-devs/commit/78c65fc) | 전체 번역 범위와 검증 기록 |
+| [`efd89eb`](https://github.com/rkttu/rust-for-dotnet-devs/commit/efd89eb) | 한국어판 GitHub Pages 배포 워크플로 |
 
 ## 원본 저장소 기여 논의
 
@@ -58,4 +62,4 @@ mdbook build ko
 
 여기까지 정리하면 한국어판은 원본 책의 모든 Markdown 파일과 장 구성을 포함하며, 단계별 커밋으로 번역 과정을 추적할 수 있습니다. 원본 내용의 날짜 민감한 설명은 원문 작성 시점을 밝혔고, 사용자가 바로 실행하는 명령과 대응 표의 오류는 공식 문서를 근거로 수정했습니다.
 
-원본 병합 방식은 관리자의 답변에 따라 조정할 수 있습니다. 그전에도 포크의 `ko-translation` 브랜치에서 한국어판을 빌드하고 읽을 수 있습니다.
+원본 병합 방식은 관리자의 답변에 따라 조정할 수 있습니다. 그전에도 포크의 `ko-translation` 브랜치에서 한국어판을 빌드하거나 GitHub Pages에서 읽을 수 있습니다.
