@@ -1,0 +1,12 @@
+[book]
+language = "ko"
+multilingual = false
+src = "src"
+title = "C#/.NET 개발자를 위한 Rust"
+
+[output.html]
+git-repository-url = "https://github.com/rkttu/rust-for-dotnet-devs"
+edit-url-template = "https://github.com/rkttu/rust-for-dotnet-devs/edit/ko-translation/ko/{path}"
+
+[output.html.playground]
+runnable = false
