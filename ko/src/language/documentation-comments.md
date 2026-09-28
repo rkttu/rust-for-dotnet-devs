@@ -7,7 +7,7 @@ C# 컴파일러는 주석과 API 시그니처를 구조화한 XML 파일을 만�
 
 ```csharp
 /// <summary>
-/// This is a document comment for <c>MyClass</c>.
+/// <c>MyClass</c>에 대한 문서 주석입니다.
 /// </summary>
 public class MyClass {}
 ```
@@ -18,7 +18,7 @@ Markdown 구문을 사용합니다. Rust 문서 컴파일러인 [`rustdoc`][rust
 컴파일합니다. 다음 예제를 살펴보겠습니다.
 
 ```rust
-/// This is a doc comment for `MyStruct`.
+/// `MyStruct`에 대한 문서 주석입니다.
 struct MyStruct;
 ```
 

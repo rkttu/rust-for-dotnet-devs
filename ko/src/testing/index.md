@@ -130,18 +130,18 @@ Rust 표준 라이브러리에는 xUnit.net의 `[Theory]` 같은 데이터
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT license.
 
-/// Utility function to read an environment variable and return its value if
-/// defined. It fails/panics if the value is not valid Unicode.
+/// 환경 변수를 읽어 설정되어 있으면 값을 반환하는 유틸리티 함수입니다.
+/// 값이 유효한 유니코드가 아니면 패닉이 발생합니다.
 pub fn get_env(key: &str) -> Option<String> {
-    #[cfg(not(test))]                 // for regular builds...
-    use std::env::var_os;             // ...import from the standard library
-    #[cfg(test)]                      // for test builds...
-    use tests::var_os_mock as var_os; // ...import mock from test sub-module
+    #[cfg(not(test))]                 // 일반 빌드에서는...
+    use std::env::var_os;             // ...표준 라이브러리에서 가져옵니다.
+    #[cfg(test)]                      // 테스트 빌드에서는...
+    use tests::var_os_mock as var_os; // ...테스트 하위 모듈에서 모의 구현을 가져옵니다.
 
     let val = var_os(key);
-    val.map(|s| s.to_str()     // get string slice
-                 .unwrap()     // panic if not valid Unicode
-                 .to_owned())  // convert to "String"
+    val.map(|s| s.to_str()     // 문자열 슬라이스를 가져옵니다.
+                 .unwrap()     // 유효한 유니코드가 아니면 패닉이 발생합니다.
+                 .to_owned())  // "String"으로 변환합니다.
 }
 
 #[cfg(test)]

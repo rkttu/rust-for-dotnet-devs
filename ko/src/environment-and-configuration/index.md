@@ -103,7 +103,7 @@ fn main() {
             }
         },
         Err(_) => {
-            // something went wrong
+            // 오류가 발생했습니다.
         }
     }
 }

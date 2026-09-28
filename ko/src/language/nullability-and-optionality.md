@@ -64,7 +64,7 @@ C#의 null 조건부 연산자 `?.`와 `?[]`는 `null`을 다루기 편하게
 string? some = "Hello, World!";
 string? none = null;
 Console.WriteLine(some?.Length); // 13
-Console.WriteLine(none?.Length); // (blank)
+Console.WriteLine(none?.Length); // (빈 줄)
 
 record Name(string FirstName, string LastName);
 record Person(Name? Name);
@@ -76,12 +76,12 @@ record Person(Name? Name);
 
 {
     Person? person = new Person(null);
-    Console.WriteLine(person1?.Name?.FirstName); // (blank)
+    Console.WriteLine(person1?.Name?.FirstName); // (빈 줄)
 }
 
 {
     Person? person = null;
-    Console.WriteLine(person1?.Name?.FirstName); // (blank)
+    Console.WriteLine(person1?.Name?.FirstName); // (빈 줄)
 }
 ```
 

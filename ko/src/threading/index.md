@@ -36,7 +36,7 @@ using System.Threading;
 
 var thread = new Thread(() => Console.WriteLine("Hello from a thread!"));
 thread.Start();
-thread.Join(); // wait for thread to finish
+thread.Join(); // 스레드가 끝날 때까지 기다립니다.
 ```
 
 Rust의 대응 코드는 다음과 같습니다.
@@ -46,7 +46,7 @@ use std::thread;
 
 fn main() {
     let thread = thread::spawn(|| println!("Hello from a thread!"));
-    thread.join().unwrap(); // wait for thread to finish
+    thread.join().unwrap(); // 스레드가 끝날 때까지 기다립니다.
 }
 ```
 

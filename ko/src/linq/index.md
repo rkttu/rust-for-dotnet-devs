@@ -20,7 +20,7 @@ foreach (var value in values)
     output.Append(value);
 }
 
-Console.Write(output); // Prints: 1, 2, 3, 4, 5
+Console.Write(output); // 출력: 1, 2, 3, 4, 5
 ```
 
 Rust에서는 `for`를 사용합니다.
@@ -36,11 +36,11 @@ fn main() {
         if output.len() > 0 {
             output.push_str(", ");
         }
-        // ! discard/ignore any write error
+        // ! 쓰기 오류를 무시합니다.
         _ = write!(output, "{value}");
     }
 
-    println!("{output}");  // Prints: 1, 2, 3, 4, 5
+    println!("{output}");  // 출력: 1, 2, 3, 4, 5
 }
 ```
 
@@ -53,8 +53,8 @@ fn main() {
     let values = [1, 2, 3, 4, 5];
     let mut output = String::new();
 
-    let mut iter = values.into_iter();      // get iterator
-    while let Some(value) = iter.next() {   // loop as long as there are more items
+    let mut iter = values.into_iter();      // 반복자를 가져옵니다.
+    while let Some(value) = iter.next() {   // 항목이 남아 있는 동안 반복합니다.
         if output.len() > 0 {
             output.push_str(", ");
         }
@@ -71,7 +71,7 @@ Rust에서는 순회할 때도 소유권과 데이터 경합 방지 규칙이 �
 fn main() {
     let values = vec![1, 2, 3, 4, 5];
 
-    // sum all values
+    // 모든 값을 더합니다.
 
     let mut sum = 0;
     for value in values {
@@ -79,16 +79,16 @@ fn main() {
     }
     println!("sum = {sum}");
 
-    // determine maximum value
+    // 최댓값을 구합니다.
 
     let mut max = None;
     for value in values {
-        if let Some(some_max) = max { // if max is defined
-            if value > some_max {     // and value is greater
-                max = Some(value)     // then note that new max
+        if let Some(some_max) = max { // max가 정의되어 있으면
+            if value > some_max {     // value가 더 크면
+                max = Some(value)     // 새 최댓값을 기록합니다.
             }
-        } else {                      // max is undefined when iteration starts
-            max = Some(value)         // so set it to the first value
+        } else {                      // 반복 시작 시 max는 정의되지 않았으므로
+            max = Some(value)         // 첫 번째 값으로 설정합니다.
         }
     }
     println!("max = {max:?}");
@@ -105,7 +105,7 @@ fn main() {
 fn main() {
     let values = vec![1, 2, 3, 4, 5];
 
-    // sum all values
+    // 모든 값을 더합니다.
 
     let mut sum = 0;
     for value in &values {
@@ -113,16 +113,16 @@ fn main() {
     }
     println!("sum = {sum}");
 
-    // determine maximum value
+    // 최댓값을 구합니다.
 
     let mut max = None;
     for value in &values {
-        if let Some(some_max) = max { // if max is defined
-            if value > some_max {     // and value is greater
-                max = Some(value)     // then note that new max
+        if let Some(some_max) = max { // max가 정의되어 있으면
+            if value > some_max {     // value가 더 크면
+                max = Some(value)     // 새 최댓값을 기록합니다.
             }
-        } else {                      // max is undefined when iteration starts
-            max = Some(value)         // so set it to the first value
+        } else {                      // 반복 시작 시 max는 정의되지 않았으므로
+            max = Some(value)         // 첫 번째 값으로 설정합니다.
         }
     }
     println!("max = {max:?}");
@@ -292,7 +292,7 @@ Rust 반복자도 같은 [_지연 평가_][iter-laziness]와 스트리밍 개념
 
 ```csharp
 foreach (var x in InfiniteRange().Take(5))
-    Console.Write($"{x} "); // Prints "0 1 2 3 4"
+    Console.Write($"{x} "); // "0 1 2 3 4"를 출력합니다.
 
 IEnumerable<int> InfiniteRange()
 {
@@ -304,12 +304,12 @@ IEnumerable<int> InfiniteRange()
 Rust에서는 무한 범위로 같은 개념을 표현합니다.
 
 ```rust
-// Generators and yield in Rust are unstable at the moment, so
-// instead, this sample uses Range:
+// 원문 작성 당시 Rust의 제너레이터와 yield는 불안정 기능이므로
+// 이 예제에서는 대신 Range를 사용합니다.
 // https://doc.rust-lang.org/std/ops/struct.Range.html
 
 for value in (0..).take(5) {
-    print!("{value} "); // Prints "0 1 2 3 4"
+    print!("{value} "); // "0 1 2 3 4"를 출력합니다.
 }
 ```
 

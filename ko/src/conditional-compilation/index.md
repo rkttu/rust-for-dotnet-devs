@@ -23,8 +23,8 @@ use std::fmt::{Display, Formatter};
 
 struct MyStruct;
 
-// This implementation of Display is only included when the OS is unix but foo is not equal to bar
-// You can compile an executable for this version, on linux, with 'rustc main.rs --cfg foo=\"baz\"'
+// 운영체제가 Unix이고 foo가 bar가 아닐 때만 이 Display 구현을 포함합니다.
+// Linux에서는 'rustc main.rs --cfg foo=\"baz\"'로 이 버전을 컴파일할 수 있습니다.
 #[cfg(all(unix, not(foo = "bar")))]
 impl Display for MyStruct {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
@@ -32,8 +32,8 @@ impl Display for MyStruct {
     }
 }
 
-// This function is only included when both unix and foo=bar are defined
-// You can compile an executable for this version, on linux, with 'rustc main.rs --cfg foo=\"bar\"'
+// unix와 foo=bar가 모두 정의되었을 때만 이 함수를 포함합니다.
+// Linux에서는 'rustc main.rs --cfg foo=\"bar\"'로 이 버전을 컴파일할 수 있습니다.
 #[cfg(all(unix, foo = "bar"))]
 impl Display for MyStruct {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
@@ -41,8 +41,8 @@ impl Display for MyStruct {
     }
 }
 
-// This function is panicking when not compiled for unix
-// You can compile an executable for this version, on windows, with 'rustc main.rs'
+// Unix용으로 컴파일하지 않으면 이 함수는 패닉을 일으킵니다.
+// Windows에서는 'rustc main.rs'로 이 버전을 컴파일할 수 있습니다.
 #[cfg(not(unix))]
 impl Display for MyStruct {
     fn fmt(&self, _f: &mut Formatter<'_>) -> std::fmt::Result {
@@ -61,7 +61,7 @@ fn main() {
 #[cfg_attr(feature = "serialization_support", derive(Serialize, Deserialize))]
 pub struct MaybeSerializableStruct;
 
-// When the `serialization_support` feature flag is enabled, the above will expand to:
+// `serialization_support` 기능을 활성화하면 위 코드는 다음과 같이 확장됩니다.
 // #[derive(Serialize, Deserialize)]
 // pub struct MaybeSerializableStruct;
 ```

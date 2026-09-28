@@ -165,7 +165,7 @@ println!("{person}");
 구현하면 자동으로 제공됩니다. 다음 두 표현은 같은 역할을 합니다.
 
 ```rust
-// Because Display is implemented, to_string() is available automatically
+// Display를 구현했으므로 to_string()을 자동으로 사용할 수 있습니다.
 let s = person.to_string();
 // s == "Person { name: John, age: 42 }"
 ```

@@ -130,21 +130,21 @@ impl Rectangle {
         Self { x1, y1, x2, y2 }
     }
 
-    // like property getters (each shares the same name as the field)
+    // 속성 getter와 비슷하며 각각 필드와 이름이 같습니다.
 
     pub fn x1(&self) -> i32 { self.x1 }
     pub fn y1(&self) -> i32 { self.y1 }
     pub fn x2(&self) -> i32 { self.x2 }
     pub fn y2(&self) -> i32 { self.y2 }
 
-    // like property setters
+    // 속성 setter와 비슷합니다.
 
     pub fn set_x1(&mut self, val: i32) { self.x1 = val }
     pub fn set_y1(&mut self, val: i32) { self.y1 = val }
     pub fn set_x2(&mut self, val: i32) { self.x2 = val }
     pub fn set_y2(&mut self, val: i32) { self.y2 = val }
 
-    // like computed properties
+    // 계산 속성과 비슷합니다.
 
     pub fn length(&self) -> i32 {
         self.y2 - self.y1
@@ -178,7 +178,7 @@ using Extensions; // (1)
 
 var sb = new StringBuilder("Hello, World!");
 sb.Wrap(">>> ", " <<<"); // (2)
-Console.WriteLine(sb.ToString()); // Prints: >>> Hello, World! <<<
+Console.WriteLine(sb.ToString()); // 출력: >>> Hello, World! <<<
 
 namespace Extensions
 {
@@ -217,7 +217,7 @@ fn main() {
 
     let mut s = String::from("Hello, World!");
     s.wrap(">>> ", " <<<"); // (2)
-    println!("{s}"); // Prints: >>> Hello, World! <<<
+    println!("{s}"); // 출력: >>> Hello, World! <<<
 }
 ```
 
@@ -285,12 +285,12 @@ impl Point {
         Self { x, y }
     }
 
-    // self is not mutable
+    // self는 가변이 아닙니다.
 
     pub fn x(&self) -> i32 { self.x }
     pub fn y(&self) -> i32 { self.y }
 
-    // self is mutable
+    // self는 가변입니다.
 
     pub fn set_x(&mut self, val: i32) { self.x = val }
     pub fn set_y(&mut self, val: i32) { self.y = val }
@@ -302,7 +302,7 @@ C#에서는 `with`로 비파괴적 변경을 할 수 있습니다.
 ```c#
 var pt = new Point(123, 456);
 pt = pt with { X = 789 };
-Console.WriteLine(pt.ToString()); // prints: Point { X = 789, Y = 456 }
+Console.WriteLine(pt.ToString()); // 출력: Point { X = 789, Y = 456 }
 
 readonly record struct Point(int X, int Y);
 ```
@@ -321,7 +321,7 @@ impl Point {
     pub fn x(&self) -> i32 { self.x }
     pub fn y(&self) -> i32 { self.y }
 
-    // following methods consume self and return a new instance
+    // 다음 메서드는 self를 소비하고 새 인스턴스를 반환합니다.
 
     pub fn set_x(self, val: i32) -> Self { Self::new(val, self.y) }
     pub fn set_y(self, val: i32) -> Self { Self::new(self.x, val) }
@@ -341,9 +341,9 @@ struct Point
 }
 
 var pt = new Point { X = 123, Y = 456 };
-Console.WriteLine(pt.ToString()); // prints: (123, 456)
+Console.WriteLine(pt.ToString()); // 출력: (123, 456)
 pt = pt with { X = 789 };
-Console.WriteLine(pt.ToString()); // prints: (789, 456)
+Console.WriteLine(pt.ToString()); // 출력: (789, 456)
 ```
 
 Rust의 _[구조체 갱신 구문]_은 이와 비슷해 보일 수 있습니다.
@@ -357,9 +357,9 @@ mod points {
 fn main() {
     use points::Point;
     let pt = Point { x: 123, y: 456 };
-    println!("{pt:?}"); // prints: Point { x: 123, y: 456 }
+    println!("{pt:?}"); // 출력: Point { x: 123, y: 456 }
     let pt = Point { x: 789, ..pt };
-    println!("{pt:?}"); // prints: Point { x: 789, y: 456 }
+    println!("{pt:?}"); // 출력: Point { x: 789, y: 456 }
 }
 ```
 

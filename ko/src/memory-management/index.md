@@ -50,9 +50,9 @@ struct Point {
 }
 
 fn main() {
-    let a = Point { x: 12, y: 34 }; // point owned by a
-    let b = a;                      // b owns the point now
-    println!("{}, {}", a.x, a.y);   // compiler error!
+    let a = Point { x: 12, y: 34 }; // a가 Point를 소유합니다.
+    let b = a;                      // 이제 b가 Point를 소유합니다.
+    println!("{}, {}", a.x, a.y);   // 컴파일 오류입니다.
 }
 ```
 
@@ -64,10 +64,10 @@ fn main() {
 
 ```rust
 fn main() {
-    let a = Point { x: 12, y: 34 }; // point owned by a
-    let b = a;                      // b owns the point now
-    println!("{}, {}", b.x, b.y);   // ok, uses b
-}   // point behind b is dropped
+    let a = Point { x: 12, y: 34 }; // a가 Point를 소유합니다.
+    let b = a;                      // 이제 b가 Point를 소유합니다.
+    println!("{}, {}", b.x, b.y);   // 정상적으로 b를 사용합니다.
+}   // b가 소유한 Point가 해제됩니다.
 ```
 
 `main`이 끝나면 `a`와 `b`가 범위를 벗어납니다. 스택이 `main`
@@ -125,12 +125,12 @@ impl Drop for Point {
 
 fn main() {
     let a = Rc::new(Point { x: 12, y: 34 });
-    let b = Rc::clone(&a); // share with b
-    println!("a = {}, {}", a.x, a.y); // okay to use a
+    let b = Rc::clone(&a); // b와 공유합니다.
+    println!("a = {}, {}", a.x, a.y); // a를 사용해도 됩니다.
     println!("b = {}, {}", b.x, b.y);
 }
 
-// prints:
+// 출력:
 // a = 12, 34
 // b = 12, 34
 // Point dropped!

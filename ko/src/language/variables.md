@@ -39,7 +39,7 @@ Rust에서 같은 문장을 작성하면 컴파일되지 않습니다.
 
 ```rust
 let x = 5;
-x = 6; // Error: cannot assign twice to immutable variable 'x'.
+x = 6; // 오류: 불변 변수 'x'에 다시 값을 대입할 수 없습니다.
 println!("{}", x);
 ```
 

@@ -65,7 +65,7 @@ Rust의 튜플은 다음과 같습니다.
 let something = (1, 2);
 println!("a = {} b = {}", something.0, something.1);
 
-// deconstruction supported
+// 분해를 지원합니다.
 let (a, b) = something;
 println!("a = {} b = {}", a, b);
 ```

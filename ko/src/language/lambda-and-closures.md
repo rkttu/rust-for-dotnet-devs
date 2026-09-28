@@ -15,7 +15,7 @@ fn do_twice(f: fn(i32) -> i32, arg: i32) -> i32 {
 
 fn main() {
     let answer = do_twice(|x| x + 1, 5);
-    println!("The answer is: {}", answer); // Prints: The answer is: 12
+    println!("The answer is: {}", answer); // 출력: The answer is: 12
 }
 ```
 

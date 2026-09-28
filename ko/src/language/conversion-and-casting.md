@@ -19,7 +19,7 @@ Rust는 허용하는 타입 강제 변환의 범위를 훨씬 좁게 제한합�
 
 ```rust
 let int_number: i32 = 1;
-let long_number: i64 = int_number; // error: expected `i64`, found `i32`
+let long_number: i64 = int_number; // 오류: `i64`가 필요하지만 `i32`를 받았습니다.
 ```
 
 [하위 타입 관계][subtyping.rs]를 이용한 올바른 암시적 변환 예제는
@@ -82,8 +82,8 @@ Rust 표준 라이브러리는 [`From`][from.rs] 트레이트와 그 역방향�
 
 ```rust
 fn main() {
-    let my_id = MyId("id".into()); // `into()` is implemented automatically due to the `From<&str>` trait implementation for `String`.
-    println!("{}", String::from(my_id)); // This uses the `From<MyId>` implementation for `String`.
+    let my_id = MyId("id".into()); // `String`의 `From<&str>` 구현 덕분에 `into()`가 자동으로 제공됩니다.
+    println!("{}", String::from(my_id)); // `String`의 `From<MyId>` 구현을 사용합니다.
 }
 
 struct MyId(String);

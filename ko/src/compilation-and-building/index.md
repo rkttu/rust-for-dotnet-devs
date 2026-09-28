@@ -2,7 +2,7 @@
 
 ## .NET CLI와 Cargo
 
-Rust의 [Cargo][cargo](`cargo`)는 .NET CLI(`dotnet`)에 대응합니다. 두 도구 모두 하위 도구를 쉽게 사용할 수 있는 진입점을 제공합니다. C# 컴파일러(`csc`)나 MSBuild(`dotnet msbuild`)를 직접 실행할 수도 있지만 보통 `dotnet build`로 솔루션을 빌드합니다. Rust에서도 컴파일러(`rustc`)를 직접 호출할 수 있지만 일반적으로 `cargo build`가 간편합니다.
+Rust의 [Cargo][cargo] (`cargo`)는 .NET CLI(`dotnet`)에 대응합니다. 두 도구 모두 하위 도구를 쉽게 사용할 수 있는 진입점을 제공합니다. C# 컴파일러(`csc`)나 MSBuild(`dotnet msbuild`)를 직접 실행할 수도 있지만 보통 `dotnet build`로 솔루션을 빌드합니다. Rust에서도 컴파일러(`rustc`)를 직접 호출할 수 있지만 일반적으로 `cargo build`가 간편합니다.
 
 [cargo]: https://doc.rust-lang.org/cargo/
 

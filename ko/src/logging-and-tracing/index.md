@@ -25,7 +25,7 @@ crate로 작성하면 다음과 같습니다.
 
 ```rust
 fn main() {
-    // install global default ("console") collector.
+    // 전역 기본("console") 수집기를 설치합니다.
     tracing_subscriber::fmt().init();
     tracing::info!("Hello {Day}.", Day = "Thursday"); // Hello Thursday.
 }

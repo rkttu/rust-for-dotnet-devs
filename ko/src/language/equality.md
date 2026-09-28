@@ -36,7 +36,7 @@ fn main() {
     let a = Point(1, 2);
     let b = Point(1, 2);
     let c = a;
-    println!("{}", a == b); // Error: "an implementation of `PartialEq<_>` might be missing for `Point`"
+    println!("{}", a == b); // 오류: "an implementation of `PartialEq<_>` might be missing for `Point`"
     println!("{}", a.eq(&b));
     println!("{}", a.eq(&Point(2, 2)));
 }

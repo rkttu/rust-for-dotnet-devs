@@ -36,11 +36,11 @@ enum DayOfWeek
 [`#[derive]` 특성][derive]으로 필요한 구현을 자동 생성합니다.
 
 ```rust,does_not_compile
-#[derive(Debug,     // enables formatting in "{:?}"
-         Clone,     // required by Copy
-         Copy,      // enables copy-by-value semantics
-         Hash,      // enables hash-ability for use in map types
-         PartialEq  // enables value equality (==)
+#[derive(Debug,     // "{:?}" 형식 출력을 지원합니다.
+         Clone,     // Copy에 필요합니다.
+         Copy,      // 값 복사 의미론을 지원합니다.
+         Hash,      // 맵 타입에서 사용할 해시 계산을 지원합니다.
+         PartialEq  // 값 동등성 비교(==)를 지원합니다.
 )]
 enum DayOfWeek
 {
@@ -61,7 +61,7 @@ fn main() {
         println!("Yay! It's the weekend!");
     }
 
-    // coerce to integer
+    // 정수로 변환합니다.
     let dow = dow as i32;
     println!("Day of week = {dow:?}");
 
@@ -99,10 +99,10 @@ impl DayOfWeek {
 
 ```rust
 let dow = DayOfWeek::try_from_i32(5);
-println!("{dow:?}"); // prints: Ok(Friday)
+println!("{dow:?}"); // 출력: Ok(Friday)
 
 let dow = DayOfWeek::try_from_i32(50);
-println!("{dow:?}"); // prints: Err(50)
+println!("{dow:?}"); // 출력: Err(50)
 ```
 
 정수 타입과 열거형 사이의 변환을 직접 구현하지 않아도 되도록 돕는

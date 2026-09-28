@@ -12,20 +12,20 @@ Rust의 차이를 설명했습니다. 여기서는 리소스 해제 예제를 �
     using var db1 = new DatabaseConnection("Server=A;Database=DB1");
     using var db2 = new DatabaseConnection("Server=A;Database=DB2");
 
-    // ...code using "db1" and "db2"...
-}   // "Dispose" of "db1" and "db2" called here; when their scope ends
+    // ..."db1"과 "db2"를 사용하는 코드...
+}   // "db1"과 "db2"가 범위를 벗어나 여기서 Dispose를 호출합니다.
 
 public class DatabaseConnection : IDisposable
 {
     readonly string connectionString;
-    SqlConnection connection; //this implements IDisposable
+    SqlConnection connection; // IDisposable을 구현합니다.
 
     public DatabaseConnection(string connectionString) =>
         this.connectionString = connectionString;
 
     public void Dispose()
     {
-        //Making sure to dispose the SqlConnection
+        // SqlConnection을 반드시 해제합니다.
         this.connection.Dispose();
         Console.WriteLine("Closing connection: {this.connectionString}");
     }
@@ -38,14 +38,14 @@ Rust에서는 같은 리소스를 다음과 같이 다룹니다.
 struct DatabaseConnection(&'static str);
 
 impl DatabaseConnection {
-    // ...functions for using the database connection...
+    // ...데이터베이스 연결을 사용하는 함수...
 }
 
 impl Drop for DatabaseConnection {
     fn drop(&mut self) {
-        // ...closing connection...
+        // ...연결을 닫는 코드...
         self.close_connection();
-        // ...printing a message...
+        // ...메시지를 출력하는 코드...
         println!("Closing connection: {}", self.0)
     }
 }
@@ -53,8 +53,8 @@ impl Drop for DatabaseConnection {
 fn main() {
     let _db1 = DatabaseConnection("Server=A;Database=DB1");
     let _db2 = DatabaseConnection("Server=A;Database=DB2");
-    // ...code for making use of the database connection...
-} // "Dispose" of "db1" and "db2" called here; when their scope ends
+    // ...데이터베이스 연결을 사용하는 코드...
+} // "db1"과 "db2"가 범위를 벗어나 여기서 Dispose를 호출합니다.
 ```
 
 .NET에서 `Dispose`를 호출한 뒤 객체를 다시 사용하면 보통 실행

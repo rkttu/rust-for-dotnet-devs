@@ -42,8 +42,8 @@ C#에서는 `where` 절로 [제네릭 타입에 제약 조건][type-constraints.
 ```csharp
 using System;
 
-// Note: records automatically implement `IEquatable`. The following
-// implementation shows this explicitly for a comparison to Rust.
+// 참고: 레코드는 `IEquatable`을 자동으로 구현합니다. 다음
+// 구현은 Rust와 비교하기 위해 이를 명시적으로 보여 줍니다.
 sealed record Timestamped<T>(DateTime Timestamp, T Value) :
     IEquatable<Timestamped<T>>
     where T : IEquatable<T>

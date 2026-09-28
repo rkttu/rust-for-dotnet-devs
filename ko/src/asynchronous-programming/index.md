@@ -39,7 +39,7 @@ async fn format_delayed(message: &str) -> String {
 
 ```csharp
 var cancellationToken = CancellationToken.None;
-PrintDelayed("message", cancellationToken); // Prints "message" after a second.
+PrintDelayed("message", cancellationToken); // 1초 뒤 "message"를 출력합니다.
 await Task.Delay(TimeSpan.FromSeconds(2), cancellationToken);
 
 async Task PrintDelayed(string message, CancellationToken cancellationToken)
@@ -55,9 +55,9 @@ Rust에서 같은 방식으로 함수를 호출하면 아무것도 출력하지 
 use async_std::task::sleep;
 use std::time::Duration;
 
-#[tokio::main] // used to support an asynchronous main method
+#[tokio::main] // 비동기 main 함수를 실행하기 위해 사용합니다.
 async fn main() {
-    print_delayed("message"); // Prints nothing.
+    print_delayed("message"); // 아무것도 출력하지 않습니다.
     sleep(Duration::from_secs(2)).await;
 }
 
@@ -184,7 +184,7 @@ C#에서는 동기 반복자를 작성할 때와 비슷한 구문으로 비동�
 
 ```csharp
 await foreach (int item in RangeAsync(10, 3).WithCancellation(CancellationToken.None))
-    Console.Write(item + " "); // Prints "10 11 12".
+    Console.Write(item + " "); // "10 11 12"를 출력합니다.
 
 async IAsyncEnumerable<int> RangeAsync(int start, int count)
 {
@@ -211,9 +211,9 @@ use tokio::time::sleep;
 #[tokio::main]
 async fn main() {
     let stream = range(10, 3);
-    pin_mut!(stream); // needed for iteration
+    pin_mut!(stream); // 반복에 필요합니다.
     while let Some(result) = stream.next().await {
-        print!("{} ", result); // Prints "10 11 12".
+        print!("{} ", result); // "10 11 12"를 출력합니다.
         stdout().flush().unwrap();
     }
 }

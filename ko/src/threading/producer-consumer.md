@@ -21,7 +21,7 @@ var producer = new Thread(() =>
 
 producer.Start();
 
-// main thread is the consumer here
+// 여기서는 메인 스레드가 소비자입니다.
 foreach (var message in messages.GetConsumingEnumerable())
     Console.WriteLine(message);
 
@@ -46,7 +46,7 @@ fn main() {
         }
     });
 
-    // main thread is the consumer here
+    // 여기서는 메인 스레드가 소비자입니다.
     for received in rx {
         println!("{}", received);
     }
