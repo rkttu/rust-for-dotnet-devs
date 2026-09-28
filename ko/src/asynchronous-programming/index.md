@@ -178,7 +178,7 @@ async fn background_operation(cancellation_token: CancellationToken) {
 
 ## 비동기 반복
 
-.NET에는 [`IAsyncEnumerable<T>`][async-enumerable.net]와 [`IAsyncEnumerator<T>`][async-enumerator.net]가 있습니다. 원문 작성 당시 Rust 표준 라이브러리에는 이에 대응하는 비동기 반복 API가 없었습니다. 대신 [`futures`의 `Stream` 트레이트][futures-stream.rs]가 비슷한 기능을 제공합니다.
+.NET에는 [`IAsyncEnumerable<T>`][async-enumerable.net]와 [`IAsyncEnumerator<T>`][async-enumerator.net]가 있습니다. 원문 작성 당시 Rust 표준 라이브러리에는 이에 대응하는 비동기 반복 API가 없었습니다. 대신 [`futures`의 `Stream` 트레이트][futures-stream.rs]가 비슷한 기능을 제공합니다. 개념과 사용법은 [Rust 비동기 책의 스트림 장][stream.rs]에서도 다룹니다.
 
 C#에서는 동기 반복자를 작성할 때와 비슷한 구문으로 비동기 반복자를 작성합니다.
 
