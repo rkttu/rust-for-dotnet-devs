@@ -1,10 +1,8 @@
-# Conditional Compilation
+# 조건부 컴파일
 
-Both .NET and Rust provide the possibility for compiling specific code based on
-external conditions.
+.NET과 Rust는 모두 외부 조건에 따라 특정 코드를 컴파일할 수 있습니다.
 
-In .NET it is possible to use some [preprocessor directives][preproc-dir] in
-order to control conditional compilation
+.NET에서는 [전처리기 지시문][preproc-dir]으로 조건부 컴파일을 제어합니다.
 
 ```csharp
 #if debug
@@ -14,19 +12,11 @@ order to control conditional compilation
 #endif
 ```
 
-In addition to predefined symbols, it is also possible to use the compiler
-option _[DefineConstants]_ to define symbols that can be used with `#if`,
-`#else`, `#elif` and `#endif` to compile source files conditionally.
+미리 정의된 기호 외에도 컴파일러 옵션인 _[DefineConstants]_로 기호를 정의할 수 있습니다. 이 기호를 `#if`, `#else`, `#elif`, `#endif`와 함께 사용하여 소스 파일을 조건에 따라 컴파일합니다.
 
-In Rust it is possible to use the [`cfg attribute`][cfg],
-the [`cfg_attr attribute`][cfg-attr] or the
-[`cfg macro`][cfg-macro] to control conditional compilation
+Rust에서는 [`cfg` 특성][cfg], [`cfg_attr` 특성][cfg-attr], [`cfg!` 매크로][cfg-macro]로 조건부 컴파일을 제어합니다. .NET과 마찬가지로 [컴파일러 플래그 `--cfg`][cfg-flag]를 사용하여 구성 옵션을 직접 설정할 수도 있습니다.
 
-As per .NET, in addition to predefined symbols, it is also possible to use the
-[compiler flag `--cfg`][cfg-flag] to arbitrarily set configuration options
-
-The [`cfg attribute`][cfg] is requiring and evaluating a
-`ConfigurationPredicate`
+[`cfg` 특성][cfg]은 구성 조건식(`ConfigurationPredicate`)을 평가하여 코드의 포함 여부를 결정합니다.
 
 ```rust
 use std::fmt::{Display, Formatter};
@@ -65,8 +55,7 @@ fn main() {
 }
 ```
 
-The [`cfg_attr attribute`][cfg-attr] conditionally includes attributes based on
-a configuration predicate.
+[`cfg_attr` 특성][cfg-attr]은 구성 조건식에 따라 다른 특성을 적용합니다.
 
 ```rust
 #[cfg_attr(feature = "serialization_support", derive(Serialize, Deserialize))]
@@ -77,9 +66,7 @@ pub struct MaybeSerializableStruct;
 // pub struct MaybeSerializableStruct;
 ```
 
-The built-in [`cfg macro`][cfg-macro] takes in a single configuration predicate
-and evaluates to the true literal when the predicate is true and the false
-literal when it is false.
+내장 [`cfg!` 매크로][cfg-macro]는 하나의 구성 조건식을 받아 참이면 `true`, 거짓이면 `false`로 평가합니다.
 
 ```rust
 if cfg!(unix) {
@@ -87,22 +74,13 @@ if cfg!(unix) {
 }
 ```
 
-See also:
+관련 내용은 [조건부 컴파일][conditional-compilation] 문서에서 확인할 수 있습니다.
 
-- [Conditional compilation][conditional-compilation]
+## 기능 플래그
 
-## Features
+조건부 컴파일은 선택적 의존성을 제공할 때도 유용합니다. Cargo에서는 패키지의 `Cargo.toml` 파일에 있는 `[features]` 테이블에 기능 이름을 정의합니다. 각 기능은 활성화하거나 비활성화할 수 있습니다. 빌드할 패키지의 기능은 `--features` 같은 명령줄 옵션으로 활성화합니다. 의존 패키지의 기능은 `Cargo.toml`의 의존성 선언에서 활성화합니다.
 
-Conditional compilation is also helpful when there is a need for providing
-optional dependencies. With cargo "features", a package defines a set of named
-features in the `[features]` table of Cargo.toml, and each feature can either be
-enabled or disabled. Features for the package being built can be enabled on the
-command-line with flags such as `--features`. Features for dependencies can be
-enabled in the dependency declaration in Cargo.toml.
-
-See also:
-
-- [Features][features]
+자세한 내용은 Cargo의 [기능 플래그 문서][features]를 참고할 수 있습니다.
 
 [features]: https://doc.rust-lang.org/cargo/reference/features.html
 [conditional-compilation]: https://doc.rust-lang.org/reference/conditional-compilation.html#conditional-compilation

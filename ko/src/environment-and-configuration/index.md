@@ -1,10 +1,8 @@
-# Environment and Configuration
+# 환경 변수와 구성
 
-## Accessing Environment Variables
+## 환경 변수에 접근하기
 
-.NET provides access to environment variables via the
-`System.Environment.GetEnvironmentVariable` method. This method retrieves the
-value of an environment variable at runtime.
+.NET에서는 `System.Environment.GetEnvironmentVariable` 메서드로 실행 중인 프로세스의 환경 변수 값을 읽습니다.
 
 ```csharp
 using System;
@@ -18,16 +16,11 @@ else
     Console.WriteLine($"Variable '{name}' set to '{value}'.");
 ```
 
-Rust provides the same environment variable access functionality at
-runtime via the `var` and `var_os` functions from the `std::env` module.
+Rust에서는 `std::env` 모듈의 `var`와 `var_os` 함수로 실행 중에 환경 변수에 접근합니다.
 
-The `var` function will return a `Result<String, VarError>`, and either returns the
-variable if it is set or returns an error if the variable is either not set or is not
-valid Unicode.
+`var`는 `Result<String, VarError>`를 반환합니다. 환경 변수가 설정되어 있으면 값을 반환하고, 설정되지 않았거나 유효한 유니코드가 아니면 오류를 반환합니다.
 
-`var_os` has a different signature giving back an `Option<OsString>`, either
-returning some value if the variable is set, or returning None if the variable
-is not set. An `OsString` is not required to be valid Unicode.
+`var_os`는 `Option<OsString>`을 반환합니다. 변수가 설정되어 있으면 `Some` 값을, 설정되지 않았으면 `None`을 반환합니다. `OsString`은 유효한 유니코드일 필요가 없습니다.
 
 ```rust
 use std::env;
@@ -54,10 +47,7 @@ fn main() {
 }
 ```
 
-Rust also provides environment variable access functionality at
-compile time. The `env!` macro from `std::env` expands the value of the variable
-at compile time, returning a `&'static str`. If the variable is not set, an
-error is emitted.
+Rust에서는 컴파일 시점에도 환경 변수에 접근할 수 있습니다. `env!` 매크로는 컴파일할 때 환경 변수 값을 `&'static str`로 확장합니다. 해당 변수가 설정되지 않았다면 컴파일 오류가 발생합니다.
 
 ```rust
 use std::env;
@@ -68,20 +58,15 @@ fn main() {
 }
 ```
 
-In .NET compile time access to environment variables can be achieved, albeit in a
-less straightforward way, via [source generators][source-gen].
+.NET에서도 [소스 생성기][source-gen]를 활용하면 컴파일 시점에 환경 변수에 접근할 수 있습니다. 다만 Rust의 `env!`처럼 직접 사용하는 방식은 아닙니다.
 
 [source-gen]: https://learn.microsoft.com/en-us/dotnet/csharp/roslyn-sdk/source-generators-overview
 
-## Configuration
+## 구성
 
-Configuration in .NET is possible with configuration providers. The framework
-provides several provider implementations via
-`Microsoft.Extensions.Configuration` namespace and NuGet packages.
+.NET에서는 구성 공급자로 설정 값을 읽습니다. 프레임워크는 `Microsoft.Extensions.Configuration` 네임스페이스와 NuGet 패키지를 통해 여러 공급자 구현을 제공합니다.
 
-Configuration providers read configuration data from key-value pairs using
-different sources and provide a unified view of the configuration via the
-`IConfiguration` type.
+구성 공급자는 다양한 원천의 키와 값 쌍을 읽고 `IConfiguration`을 통해 통합된 설정을 제공합니다.
 
 ```csharp
 using Microsoft.Extensions.Configuration;
@@ -100,13 +85,9 @@ class Example {
 }
 ```
 
-Other provider examples can be found in the official documentation
-[Configurations provider in .NET][conf-net].
+다른 공급자는 공식 [.NET 구성 공급자 문서][conf-net]에서 살펴볼 수 있습니다.
 
-A similar configuration experience in Rust is available via use of third-party
-crates such as [figment] or [config].
-
-See the following example making use of [config] crate:
+Rust에서는 [figment]나 [config] 같은 외부 크레이트를 사용해 비슷한 방식으로 구성을 관리할 수 있습니다. 다음 예제는 [config] 크레이트를 사용합니다.
 
 ```rust
 use config::{Config, Environment};

@@ -1,9 +1,6 @@
-# Project Structure
+# 프로젝트 구조
 
-While there are conventions around structuring a project  in .NET, they are
-less strict compared to the Rust project structure conventions. When creating
-a two-project solution using Visual Studio 2022 (a class library and an xUnit
-test project), it will create the following structure:
+.NET 프로젝트에도 일반적인 디렉터리 구성이 있지만 Rust 프로젝트보다 형식이 자유로운 편입니다. Visual Studio 2022에서 클래스 라이브러리와 xUnit 테스트 프로젝트로 구성된 솔루션을 만들면 다음과 같은 구조가 됩니다.
 
     .
     |   SampleClassLibrary.sln
@@ -15,11 +12,9 @@ test project), it will create the following structure:
             UnitTest1.cs
             Usings.cs
 
-- Each project resides in a separate directory, with its own `.csproj` file.
-- At the root of the repository is a `.sln` file.
+각 프로젝트는 자체 `.csproj` 파일과 별도 디렉터리를 사용합니다. 저장소 루트에는 `.sln` 파일이 있습니다.
 
-Cargo uses the following conventions for the [package layout] to make it easy to
-dive into a new Cargo [package][rust-package]:
+Cargo는 새 [패키지][rust-package]의 구성을 쉽게 파악할 수 있도록 다음 [패키지 레이아웃][package layout]을 따릅니다.
 
     .
     +-- Cargo.lock
@@ -34,15 +29,11 @@ dive into a new Cargo [package][rust-package]:
     +-- tests/
         +-- some-integration-test.rs
 
-- `Cargo.toml` and `Cargo.lock` are stored in the root of the package.
-- `src/lib.rs` is the default library file, and `src/main.rs` is the default
-  executable file (see [target auto-discovery]).
-- Benchmarks go in the `benches` directory, integration tests go in the `tests`
-  directory (see [testing][section-testing],
-  [benchmarking][section-benchmarking]).
-- Examples go in the `examples` directory.
-- There is no separate crate for unit tests, unit tests live in the same file as
-  the code (see [testing][section-testing]).
+- `Cargo.toml`과 `Cargo.lock`은 패키지 루트에 둡니다.
+- `src/lib.rs`는 기본 라이브러리 파일이며 `src/main.rs`는 기본 실행 파일입니다. 자세한 규칙은 [타깃 자동 검색][target auto-discovery]을 참고할 수 있습니다.
+- 벤치마크는 `benches`에, 통합 테스트는 `tests`에 둡니다. [테스트][section-testing]와 [벤치마킹][section-benchmarking] 장에서 자세히 다룹니다.
+- 예제는 `examples`에 둡니다.
+- 단위 테스트용 크레이트를 별도로 만들지 않습니다. 단위 테스트는 대상 코드와 같은 파일에 둡니다. [테스트][section-testing] 장에서 예제를 확인할 수 있습니다.
 
 [package layout]: https://doc.rust-lang.org/cargo/guide/project-layout.html
 [rust-package]: https://doc.rust-lang.org/cargo/appendix/glossary.html#package
@@ -50,23 +41,16 @@ dive into a new Cargo [package][rust-package]:
 [section-testing]: ../testing/index.md
 [section-benchmarking]: ../benchmarking/index.md
 
-## Managing Large Projects
+## 대규모 프로젝트 관리
 
-For very large projects in Rust, Cargo offers [workspaces][cargo-workspaces] to
-organize the project. A workspace can help manage multiple related packages that
-are developed in tandem. Some projects use [_virtual
-manifests_][cargo-virtual-manifest], especially when there is no primary
-package.
+Rust의 대규모 프로젝트에서는 Cargo [워크스페이스][cargo-workspaces]로 관련 패키지를 함께 관리할 수 있습니다. 기본 패키지가 없는 프로젝트에서는 [_가상 매니페스트_][cargo-virtual-manifest]를 사용하기도 합니다.
 
 [cargo-workspaces]: https://doc.rust-lang.org/book/ch14-03-cargo-workspaces.html
 [cargo-virtual-manifest]: https://doc.rust-lang.org/cargo/reference/workspaces.html#virtual-workspace
 
-## Managing Dependency Versions
+## 의존성 버전 관리
 
-When managing larger projects in .NET, it may be appropriate to manage the
-versions of dependencies centrally, using strategies such as [Central Package
-Management]. Cargo introduced [workspace inheritance] to manage dependencies
-centrally.
+대규모 .NET 프로젝트에서는 [중앙 패키지 관리][Central Package Management]로 의존성 버전을 한곳에서 관리할 수 있습니다. Cargo는 [워크스페이스 상속][workspace inheritance]으로 의존성을 중앙에서 관리합니다.
 
 [Central Package Management]: https://learn.microsoft.com/en-us/nuget/consume-packages/Central-Package-Management
 [workspace inheritance]: https://doc.rust-lang.org/cargo/reference/workspaces.html#the-package-table
