@@ -13,10 +13,9 @@ Then to render for reading in a Web browser, run:
 
 ## Korean translation (work in progress)
 
-A Korean edition is being prepared in [`ko/`](ko/). It currently includes the
-introduction and getting started chapter. To preview the translated chapters,
-run `mdbook serve ko` from the repository root. The original English book
-remains in `src/`. The upstream translation discussion is in [issue #47].
+A Korean edition is being prepared in [`ko/`](ko/). To preview it, run
+`mdbook serve ko` from the repository root. The original English book remains
+in `src/`. The upstream translation discussion is in [issue #47].
 
 [issue #47]: https://github.com/microsoft/rust-for-dotnet-devs/issues/47
 
