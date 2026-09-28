@@ -1,38 +1,39 @@
-# Strings
+# 문자열
 
-There are two string types in Rust: `String` and `&str`. The former is
-allocated on the heap and the latter is a slice of a `String` or a `&str`.
+Rust에는 `String`과 `&str`이라는 두 가지 주요 문자열 타입이 있습니다.
+`String`은 힙에 할당되며, `&str`은 문자열의 슬라이스입니다.
 
-The mapping of those to .NET is shown in the following table:
+다음 표는 .NET의 대응 타입을 보여 줍니다.
 
-| Rust               | .NET                 | Note        |
-| ------------------ | -------------------- | ----------- |
-| `&mut str`         | `Span<char>`         |             |
-| `&str`             | `ReadOnlySpan<char>` |             |
-| `Box<str>`         | `String`             | see Note 1. |
-| `String`           | `String`             |             |
-| `String` (mutable) | `StringBuilder`      | see Note 1. |
+| Rust               | .NET                 | 비고      |
+| ------------------ | -------------------- | --------- |
+| `&mut str`         | `Span<char>`         |           |
+| `&str`             | `ReadOnlySpan<char>` |           |
+| `Box<str>`         | `String`             | 주 1 참조 |
+| `String`           | `String`             |           |
+| 가변 `String`      | `StringBuilder`      | 주 1 참조 |
 
-There are differences in working with strings in Rust and .NET, but the
-equivalents above should be a good starting point. One of the differences is
-that Rust strings are UTF-8 encoded, but .NET strings are UTF-16 encoded.
-Further .NET strings are immutable, but Rust strings can be mutable when declared
-as such, for example `let mut s = String::from("hello");`.
+Rust와 .NET에서 문자열을 다루는 방식에는 차이가 있지만 위 대응 관계는
+출발점으로 활용할 수 있습니다. Rust 문자열은 UTF-8로 인코딩하고 .NET
+문자열은 UTF-16으로 인코딩합니다. .NET 문자열은 불변입니다. Rust의
+`String`은 `let mut s = String::from("hello");`처럼 선언하면
+변경할 수 있습니다.
 
-There are also differences in using strings due to the concept of ownership. To
-read more about ownership with the String Type, see the [Rust Book][ownership-string-type-example].
+소유권 개념도 문자열 사용 방식에 영향을 줍니다. `String`의 소유권에
+관해서는 [Rust Book][ownership-string-type-example]에서 확인할 수
+있습니다.
 
 [ownership-string-type-example]: https://doc.rust-lang.org/book/ch04-01-what-is-ownership.html#the-string-type
 
-Notes:
+주석:
 
-1. The `Box<str>` type in Rust is equivalent to the `String` type in .NET. The
-   difference between the `Box<str>` and `String` types in Rust is that the
-   former stores pointer and size while the latter stores pointer, size, and
-   capacity, allowing `String` to grow in size. This is similar to the
-   `StringBuilder` type in .NET once the Rust `String` is declared mutable.
+1. Rust의 `Box<str>`은 .NET의 `String`에 대응합니다. Rust에서
+   `Box<str>`은 포인터와 크기를 저장하지만 `String`은 포인터, 크기,
+   용량을 저장합니다. 따라서 `String`의 크기를 늘릴 수 있습니다.
+   Rust의 `String`을 가변으로 선언했을 때는 .NET의 `StringBuilder`와
+   비슷한 면이 있습니다.
 
-C#:
+먼저 C# 예제입니다.
 
 ```csharp
 ReadOnlySpan<char> span = "Hello, World!";
@@ -40,7 +41,7 @@ string str = "Hello, World!";
 StringBuilder sb = new StringBuilder("Hello, World!");
 ```
 
-Rust:
+Rust에서는 다음과 같이 작성합니다.
 
 ```rust
 let span: &str = "Hello, World!";
@@ -48,57 +49,54 @@ let str: Box<str> = Box::from("Hello World!");
 let mut sb = String::from("Hello World!");
 ```
 
-## String Literals
+## 문자열 리터럴
 
-String literals in .NET are immutable `String` types and allocated on the heap.
-In Rust, they are `&'static str`, which is immutable and has a global lifetime
-and does not get allocated on the heap; they're embedded in the compiled binary.
+.NET의 문자열 리터럴은 불변 `String`이며 힙에 할당됩니다. Rust의
+문자열 리터럴은 `&'static str` 타입입니다. 불변이고 전역 수명을
+가지며, 힙에 할당되지 않고 컴파일된 바이너리에 포함됩니다.
 
-C#:
+먼저 C# 예제입니다.
 
 ```csharp
 string str = "Hello, World!";
 ```
 
-Rust:
+Rust 예제는 다음과 같습니다.
 
 ```rust
 let str: &'static str = "Hello, World!";
 ```
 
-C# verbatim string literals are equivalent to Rust raw string literals.
-
-C#:
+C#의 축어 문자열 리터럴은 Rust의 원시 문자열 리터럴에 대응합니다.
+먼저 C# 코드입니다.
 
 ```csharp
 string str = @"Hello, \World/!";
 ```
 
-Rust:
+Rust 코드는 다음과 같습니다.
 
 ```rust
 let str = r#"Hello, \World/!"#;
 ```
 
-C# UTF-8 string literals are equivalent to Rust byte string literals.
-
-C#:
+C#의 UTF-8 문자열 리터럴은 Rust의 바이트 문자열 리터럴에 대응합니다.
+먼저 C# 코드입니다.
 
 ```csharp
 ReadOnlySpan<byte> str = "hello"u8;
 ```
 
-Rust:
+Rust 코드는 다음과 같습니다.
 
 ```rust
 let str = b"hello";
 ```
 
-## String Interpolation
+## 문자열 보간
 
-C# has a built-in string interpolation feature that allows you to embed
-expressions inside a string literal. The following example shows how to use
-string interpolation in C#:
+C#에는 문자열 리터럴 안에 식을 넣을 수 있는 문자열 보간 기능이
+있습니다. 다음 예제에서 사용법을 확인할 수 있습니다.
 
 ```csharp
 string name = "John";
@@ -106,9 +104,8 @@ int age = 42;
 string str = $"Person {{ Name: {name}, Age: {age} }}";
 ```
 
-Rust does not have a built-in string interpolation feature. Instead, the
-`format!` macro is used to format a string. The following example shows how to
-use string interpolation in Rust:
+Rust에는 언어 차원의 문자열 보간 기능이 없습니다. 대신 `format!`
+매크로로 문자열을 포맷합니다. 다음 예제를 살펴보겠습니다.
 
 ```rust
 let name = "John";
@@ -116,11 +113,12 @@ let age = 42;
 let str = format!("Person {{ name: {name}, age: {age} }}");
 ```
 
-Note that `format!` only supports embedding variable names in the string; more
-complex expressions are spelled like `format!("1 + 1 = {}", 1 + 1)`.
+`format!`은 문자열 안에 변수 이름을 바로 넣는 방식만 지원합니다.
+더 복잡한 식은 `format!("1 + 1 = {}", 1 + 1)`처럼 별도 인수로
+전달합니다.
 
-Custom classes and structs can also be interpolated in C# due to the fact that
-the `ToString()` method is available for each type as it inherits from `object`.
+C#의 사용자 정의 클래스와 구조체는 모두 `object`에서 `ToString()`을
+상속하므로 문자열 보간에 사용할 수 있습니다.
 
 ```csharp
 class Person
@@ -136,9 +134,8 @@ var person = new Person { Name = "John", Age = 42 };
 Console.Writeline(person);
 ```
 
-In Rust, there is no default formatting implemented/inherited for each type.
-Instead, the `std::fmt::Display` trait must be implemented for each type that
-needs to be converted to a string.
+Rust에서는 모든 타입이 기본 포맷 구현을 물려받지 않습니다. 문자열로
+표현할 타입마다 `std::fmt::Display` 트레이트를 구현해야 합니다.
 
 ```rust
 use std::fmt::*;
@@ -162,10 +159,10 @@ let person = Person {
 println!("{person}");
 ```
 
-For converting values to string using `Display` but without formatting, you can
-use the `std::string::ToString` trait. Its `to_string()` method is equal to the
-`ToString()` method in .NET, and implemented automatically whenever you
-implement `Display`. That is:
+포맷 문자열 없이 `Display`로 값을 문자열로 바꿀 때는
+`std::string::ToString` 트레이트를 사용할 수 있습니다. 이 트레이트의
+`to_string()` 메서드는 .NET의 `ToString()`과 비슷하며 `Display`를
+구현하면 자동으로 제공됩니다. 다음 두 표현은 같은 역할을 합니다.
 
 ```rust
 // Because Display is implemented, to_string() is available automatically
@@ -173,12 +170,10 @@ let s = person.to_string();
 // s == "Person { name: John, age: 42 }"
 ```
 
-Another option is to use the `std::fmt::Debug` trait. The `Debug` trait is
-implemented for all standard types and can be used to print the internal
-representation of a type. The following example shows how to use the `derive`
-attribute to print the internal representation of a custom struct using the
-`Debug` macro. This declaration is used to automatically implement the `Debug`
-trait for the `Person` struct:
+`std::fmt::Debug` 트레이트를 사용하는 방법도 있습니다. 표준 타입은
+모두 `Debug`를 구현하며 타입의 내부 표현을 출력할 때 사용할 수
+있습니다. 다음 예제는 `derive` 특성으로 `Person` 구조체에 `Debug`를
+자동 구현하고 내부 표현을 출력합니다.
 
 ```rust
 #[derive(Debug)]
@@ -195,11 +190,11 @@ let person = Person {
 println!("{person:?}");
 ```
 
-> Note: Using the :? format specifier will use the `Debug` trait to print the
-> struct, where leaving it out will use the `Display` trait.
+> `:?` 포맷 지정자는 `Debug` 트레이트로 구조체를 출력합니다. 이를
+> 생략하면 `Display` 트레이트를 사용합니다.
 >
-> You can also use the `:#?` specifier to pretty-print the debug format.
+> `:#?` 지정자를 사용하면 디버그 출력을 보기 좋게 정렬할 수 있습니다.
 
-See also:
+관련 자료:
 
-- [Rust by Example - Debug](https://doc.rust-lang.org/stable/rust-by-example/hello/print/print_debug.html?highlight=derive#debug)
+- [Rust By Example의 Debug 설명](https://doc.rust-lang.org/stable/rust-by-example/hello/print/print_debug.html?highlight=derive#debug)

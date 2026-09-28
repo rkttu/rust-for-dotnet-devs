@@ -1,6 +1,7 @@
-# Structured Types
+# 구조화된 타입
 
-Commonly used object and collection types in .NET and their mapping to Rust
+다음 표는 .NET에서 자주 쓰는 객체 및 컬렉션 타입과 Rust의 대응 타입을
+보여 줍니다.
 
 | C#           | Rust      |
 | ------------ | --------- |
@@ -9,28 +10,24 @@ Commonly used object and collection types in .NET and their mapping to Rust
 | `Tuple`      | `Tuple`   |
 | `Dictionary` | `HashMap` |
 
-## Array
+## 배열
 
-Fixed arrays are supported the same way in Rust as in .NET
-
-C#:
+Rust도 .NET처럼 길이가 고정된 배열을 지원합니다. 먼저 C# 예제입니다.
 
 ```csharp
 int[] someArray = new int[2] { 1, 2 };
 ```
 
-Rust:
+Rust에서는 다음과 같이 작성합니다.
 
 ```rust
 let someArray: [i32; 2] = [1,2];
 ```
 
-## List
+## 목록
 
-In Rust the equivalent of a `List<T>` is a `Vec<T>`. Arrays can be converted
-to Vecs and vice versa.
-
-C#:
+Rust의 `Vec<T>`는 C#의 `List<T>`에 대응합니다. 배열을 벡터로
+변환하거나 벡터를 배열로 변환할 수 있습니다. 먼저 C# 예제입니다.
 
 ```csharp
 var something = new List<string>
@@ -42,7 +39,7 @@ var something = new List<string>
 something.Add("c");
 ```
 
-Rust:
+Rust 예제는 다음과 같습니다.
 
 ```rust
 let mut something = vec![
@@ -53,16 +50,16 @@ let mut something = vec![
 something.push("c".to_owned());
 ```
 
-## Tuples
+## 튜플
 
-C#:
+먼저 C#의 튜플 예제입니다.
 
 ```csharp
 var something = (1, 2)
 Console.WriteLine($"a = {something.Item1} b = {something.Item2}");
 ```
 
-Rust:
+Rust의 튜플은 다음과 같습니다.
 
 ```rust
 let something = (1, 2);
@@ -73,15 +70,13 @@ let (a, b) = something;
 println!("a = {} b = {}", a, b);
 ```
 
-> **NOTE**: Rust tuple elements cannot be named like in C#. The only way to
-> access a tuple element is by using the index of the element or deconstructing
-> the tuple.
+> Rust는 C#과 달리 튜플 요소에 이름을 붙일 수 없습니다. 인덱스로
+> 접근하거나 튜플을 분해해서 요소를 사용할 수 있습니다.
 
-## Dictionary
+## 딕셔너리
 
-In Rust the equivalent of a `Dictionary<TKey, TValue>` is a `Hashmap<K, V>`.
-
-C#:
+Rust의 `HashMap<K, V>`는 C#의 `Dictionary<TKey, TValue>`에
+대응합니다. 먼저 C# 예제입니다.
 
 ```csharp
 var something = new Dictionary<string, string>
@@ -93,7 +88,7 @@ var something = new Dictionary<string, string>
 something.Add("hi", "there");
 ```
 
-Rust:
+Rust 예제는 다음과 같습니다.
 
 ```rust
 let mut something = HashMap::from([
@@ -104,6 +99,6 @@ let mut something = HashMap::from([
 something.insert("hi".to_owned(), "there".to_owned());
 ```
 
-See also:
+관련 자료:
 
-- [Rust's standard library - Collections](https://doc.rust-lang.org/std/collections/index.html)
+- [Rust 표준 라이브러리의 컬렉션](https://doc.rust-lang.org/std/collections/index.html)

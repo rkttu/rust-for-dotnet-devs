@@ -1,30 +1,30 @@
-# Nullability and Optionality
+# null 가능성과 선택성
 
-In C#, `null` is often used to represent a value that is missing, absent or
-logically uninitialized. For example:
+C#에서는 값이 없거나 아직 초기화되지 않았음을 나타낼 때 `null`을
+자주 사용합니다. 다음 예제를 살펴보겠습니다.
 
 ```csharp
 int? some = 1;
 int? none = null;
 ```
 
-Rust has no `null` and consequently no nullable context to enable. Optional or
-missing values are instead represented by [`Option<T>`][option]. The
-equivalent of the C# code above in Rust would be:
+Rust에는 `null`이 없으므로 활성화할 nullable 문맥도 없습니다.
+값이 없거나 선택 사항인 경우에는 [`Option<T>`][option]로 표현합니다.
+위 C# 코드에 대응하는 Rust 코드는 다음과 같습니다.
 
 ```rust
 let some: Option<i32> = Some(1);
 let none: Option<i32> = None;
 ```
 
-`Option<T>` in Rust is practically identical to [`'T option`][opt.fs] from F#.
+Rust의 `Option<T>`는 F#의 [`'T option`][opt.fs]과 거의 같습니다.
 
 [opt.fs]: https://fsharp.github.io/fsharp-core-docs/reference/fsharp-core-option-1.html
 
-## Control Flow with Optionality
+## 선택적 값에 따른 제어 흐름
 
-In C#, you may have been using `if`/`else` statements for controlling the flow
-when using nullable values.
+C#에서는 null 가능 값을 처리할 때 `if`/`else` 문으로 흐름을
+제어할 수 있습니다.
 
 ```csharp
 uint? max = 10;
@@ -34,7 +34,7 @@ if (max is { } someMax)
 }
 ```
 
-You can use pattern matching to achieve the same behavior in Rust:
+Rust에서는 패턴 일치로 같은 동작을 구현할 수 있습니다.
 
 ```rust
 let max = Some(10u32);
@@ -44,7 +44,7 @@ match max {
 }
 ```
 
-It would even be more concise to use `if let`:
+`if let`을 사용하면 코드를 더 간결하게 작성할 수 있습니다.
 
 ```rust
 let max = Some(10u32);
@@ -53,12 +53,12 @@ if let Some(max) = max {
 }
 ```
 
-## Null-Conditional Operators
+## null 조건부 연산자
 
-The null-conditional operators (`?.` and `?[]`) make dealing with `null` in C#
-more ergonomic. In Rust, they are best replaced by using either the
-[`map`][optmap] method or the [`and_then`][opt_and_then] method, depending on
-the nesting of the `Option`. The following snippets show the correspondence:
+C#의 null 조건부 연산자 `?.`와 `?[]`는 `null`을 다루기 편하게
+해 줍니다. Rust에서는 `Option`의 중첩 여부에 따라 [`map`][optmap]
+또는 [`and_then`][opt_and_then] 메서드를 사용할 수 있습니다. 다음
+예제에서 대응 관계를 살펴보겠습니다.
 
 ```csharp
 string? some = "Hello, World!";
@@ -85,6 +85,8 @@ record Person(Name? Name);
 }
 ```
 
+다음 예제에서는 다른 중첩 형태를 비교합니다.
+
 ```rust
 let some: Option<String> = Some(String::from("Hello, World!"));
 let none: Option<String> = None;
@@ -109,9 +111,9 @@ let person: Option<Person> = None;
 println!("{:?}", person.and_then(|p| p.name.map(|name| name.first_name))); // None
 ```
 
-The `?` operator ([mentioned in the previous chapter][err]), can also be used to
-handle an `Option`. It returns from the function with `None` if a `None` is
-encountered, else continues with the `Some` value:
+[앞 장의 오류 전파 절][err]에서 살펴본 `?` 연산자는 `Option`에도
+사용할 수 있습니다. `None`을 만나면 함수에서 `None`을 반환하고,
+`Some`이면 안의 값으로 계산을 계속합니다.
 
 ```rust
 fn foo(optional: Option<i32>) -> Option<String> {
@@ -120,12 +122,12 @@ fn foo(optional: Option<i32>) -> Option<String> {
 }
 ```
 
-[err]: exception-handling.md#error-propagation
+[err]: exception-handling.md#오류-전파
 
-## Null-Coalescing Operator
+## null 병합 연산자
 
-The null-coalescing operator (`??`) is typically used to default to another
-value when a nullable is `null`:
+C#의 null 병합 연산자 `??`는 null 가능 값이 `null`일 때 기본값을
+선택하는 데 사용합니다.
 
 ```csharp
 int? some = 1;
@@ -134,7 +136,8 @@ Console.WriteLine(some ?? 0); // 1
 Console.WriteLine(none ?? 0); // 0
 ```
 
-In Rust, you can use [`unwrap_or`][unwrap-or] to get the same behavior:
+Rust에서는 [`unwrap_or`][unwrap-or]로 같은 동작을 구현할 수
+있습니다.
 
 ```rust
 let some: Option<i32> = Some(1);
@@ -143,18 +146,18 @@ println!("{:?}", some.unwrap_or(0)); // 1
 println!("{:?}", none.unwrap_or(0)); // 0
 ```
 
-**Note**: If the default value is expensive to compute, you can use
-`unwrap_or_else` instead. It takes a closure as an argument, which allows you to
-lazily initialize the default value.
+기본값을 계산하는 비용이 크다면 `unwrap_or_else`를 사용할 수
+있습니다. 이 메서드는 클로저를 받아 기본값을 지연 계산합니다.
 
-## Null-Forgiving Operator
+## null 허용 연산자
 
-The null-forgiving operator (`!`) does not correspond to an equivalent construct
-in Rust, as it only affects the compiler's static flow analysis in C#. In Rust,
-there is no need to use a substitute for it. [`unwrap`][opt_unwrap] is close,
-though: it panics if the value is `None`. [`expect`][opt_expect] is similar but
-allows you to provide a custom error message. Note that as previously said,
-panics should be reserved to unrecoverable situations.
+C#의 null 허용 연산자 `!`는 컴파일러의 정적 흐름 분석에만 영향을
+주므로 Rust에 직접 대응하는 구문이 없습니다. Rust에서는 같은 역할의
+구문이 필요하지 않습니다. 다만 [`unwrap`][opt_unwrap]은 값이 `None`이면
+패닉을 일으킨다는 점에서 비슷한 결과를 낼 수 있습니다.
+[`expect`][opt_expect]도 비슷하지만 사용자 정의 오류 메시지를
+넣을 수 있습니다. 앞서 설명했듯 패닉은 복구할 수 없는 상황에
+사용합니다.
 
 [option]: https://doc.rust-lang.org/std/option/enum.Option.html
 [optmap]: https://doc.rust-lang.org/std/option/enum.Option.html#method.map

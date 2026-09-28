@@ -1,12 +1,12 @@
-# Members
+# 멤버
 
-## Constructors
+## 생성자
 
-Rust does not have any notion of constructors. Instead, you just write factory
-functions that return an instance of the type. The factory functions can be
-stand-alone or _associated functions_ of the type. In C# terms, associated
-functions are like having static methods on a type. Conventionally, if there
-is just one factory function for a `struct`, it's named `new`:
+Rust에는 생성자라는 구문이 없습니다. 대신 타입 인스턴스를 반환하는
+팩터리 함수를 작성합니다. 팩터리 함수는 독립 함수일 수도 있고 타입의
+_연관 함수_일 수도 있습니다. C#으로 비유하면 연관 함수는 타입의 정적
+메서드와 비슷합니다. 구조체에 팩터리 함수가 하나만 있다면 관례상
+`new`라고 이름을 붙입니다.
 
 ```rust
 struct Rectangle {
@@ -21,34 +21,34 @@ impl Rectangle {
 }
 ```
 
-Since Rust functions (associated or otherwise) do not support overloading, the
-factory functions have to be named uniquely. For example, below are some
-examples of so-called constructors or factory functions available on `String`:
+Rust 함수는 연관 함수 여부와 관계없이 오버로딩을 지원하지 않습니다.
+따라서 여러 팩터리 함수에는 서로 다른 이름을 붙입니다. `String`에서
+제공하는 생성 함수의 예는 다음과 같습니다.
 
-- `String::new`: creates an empty string.
-- `String::with_capacity`: creates a string with an initial buffer capacity.
-- `String::from_utf8`: creates a string from bytes of UTF-8 encoded text.
-- `String::from_utf16`: creates a string from bytes of UTF-16 encoded text.
+- `String::new`: 빈 문자열 생성
+- `String::with_capacity`: 초기 버퍼 용량을 지정한 문자열 생성
+- `String::from_utf8`: UTF-8 텍스트 바이트에서 문자열 생성
+- `String::from_utf16`: UTF-16 텍스트 바이트에서 문자열 생성
 
-In the case of an `enum` type in Rust, the variants act as the constructors.
-See [the section on enumeration types][enums] for more.
+Rust의 `enum`에서는 변형이 생성자 역할을 합니다. 자세한 내용은
+[열거형 절][enums]에서 확인할 수 있습니다.
 
-See also:
+관련 자료:
 
-- [Constructors are static, inherent methods (C-CTOR)][rs-api-C-CTOR]
+- [생성자는 정적 고유 메서드(C-CTOR)][rs-api-C-CTOR]
 
-  [enums]: enums.md
-  [rs-api-C-CTOR]: https://rust-lang.github.io/api-guidelines/predictability.html?highlight=new#constructors-are-static-inherent-methods-c-ctor
+[enums]: enums.md
+[rs-api-C-CTOR]: https://rust-lang.github.io/api-guidelines/predictability.html?highlight=new#constructors-are-static-inherent-methods-c-ctor
 
-## Methods (static & instance-based)
+## 정적 메서드와 인스턴스 메서드
 
-Like C#, Rust types (both `enum` and `struct`), can have static and
-instance-based methods. In Rust-speak, a _method_ is always instance-based and
-is identified by the fact that its first parameter is named `self`. The `self`
-parameter has no type annotation since it's always the type to which the
-method belongs. A static method is called an _associated function_. In the
-example below, `new` is an associated function and the rest (`length`, `width`
-and `area`) are methods of the type:
+C#처럼 Rust의 `enum`과 `struct`에도 정적 메서드와 인스턴스
+메서드에 대응하는 함수를 둘 수 있습니다. Rust에서 _메서드_는 항상
+인스턴스에 속하며 첫 매개변수의 이름이 `self`입니다. `self`는
+메서드가 속한 타입을 뜻하므로 별도의 타입 표기를 하지 않습니다.
+정적 메서드에 해당하는 함수는 _연관 함수_라고 부릅니다. 다음
+예제에서 `new`는 연관 함수이고 `length`, `width`, `area`는
+메서드입니다.
 
 ```rust
 struct Rectangle {
@@ -75,11 +75,10 @@ impl Rectangle {
 }
 ```
 
-## Constants
+## 상수
 
-Like in C#, a type in Rust can have constants. However, the most interesting
-aspect to note is that Rust allows a type instance to be defined as a constant
-too:
+C#과 마찬가지로 Rust의 타입에도 상수를 둘 수 있습니다. Rust에서는
+타입 인스턴스 자체를 상수로 정의할 수도 있습니다.
 
 ```rust
 struct Point {
@@ -92,7 +91,7 @@ impl Point {
 }
 ```
 
-In C#, the same would require a static read-only field:
+C#에서 같은 역할을 하려면 정적 읽기 전용 필드가 필요합니다.
 
 ```c#
 readonly record struct Point(int X, int Y)
@@ -101,25 +100,24 @@ readonly record struct Point(int X, int Y)
 }
 ```
 
-## Events
+## 이벤트
 
-Rust has no built-in support for type members to advertise and fire events,
-like C# has with the `event` keyword.
+C#의 `event` 키워드처럼 타입 멤버가 이벤트를 알리고 발생시키는
+기능은 Rust 언어에 내장되어 있지 않습니다.
 
-## Properties
+## 속성
 
-In C#, fields of a type are generally private. They are then
-protected/encapsulated by property members with accessor methods (`get` and
-`set`) to read or write to those field. The accessor methods can contain extra
-logic, for example, to either validate the value when being set or compute a
-value when being read. Rust only has methods [where a getter is named after the
-field (in Rust method names can share the same identifier as a field) and the
-setter uses a `set_` prefix][get-set-name.rs].
+C#에서는 대체로 타입의 필드를 비공개로 두고 `get`, `set` 접근자를
+가진 속성으로 읽기와 쓰기를 캡슐화합니다. 접근자에는 값을 설정할
+때 검증하거나 읽을 때 계산하는 로직을 넣을 수 있습니다. Rust에는
+메서드가 있으며 [getter는 필드와 같은 이름을 쓰고 setter에는
+`set_` 접두사를 붙이는 관례][get-set-name.rs]가 있습니다. Rust에서는
+메서드와 필드가 같은 이름을 가질 수 있습니다.
 
-  [get-set-name.rs]: https://github.com/rust-lang/rfcs/blob/master/text/0344-conventions-galore.md#gettersetter-apis
+[get-set-name.rs]: https://github.com/rust-lang/rfcs/blob/master/text/0344-conventions-galore.md#gettersetter-apis
 
-Below is an example showing how property-like accessor methods typically look
-for a type in Rust:
+다음 예제는 Rust 타입에서 속성과 비슷한 접근자 메서드를 작성하는
+방식을 보여 줍니다.
 
 ```rust
 struct Rectangle {
@@ -162,17 +160,16 @@ impl Rectangle {
 }
 ```
 
-> Note: While in C# it is idiomatic to expose a property for every field and keep
-> the fields private, in Rust it is more common to expose the fields directly when possible,
-> since there is no syntax sugar for accessor methods and they also have complexities
-> with the borrow checker.
+> C#에서는 필드마다 속성을 공개하고 필드는 비공개로 유지하는 방식이
+> 일반적입니다. Rust에서는 가능하면 필드를 직접 공개하는 경우가 더
+> 많습니다. 접근자 메서드를 위한 전용 구문이 없고 빌림 검사기와
+> 관련한 복잡성이 생길 수 있기 때문입니다.
 
-## Extension Methods
+## 확장 메서드
 
-Extension methods in C# enable the developer to attach new statically-bound
-methods to existing types, without needing to modify the original definition
-of the type. In the following C# example, a new `Wrap` method is added to the
-`StringBuilder` class _by extension_:
+C#의 확장 메서드는 기존 타입의 정의를 수정하지 않고 정적으로
+바인딩되는 새 메서드를 붙입니다. 다음 C# 예제에서는 `StringBuilder`
+클래스에 `Wrap` 메서드를 확장 방식으로 추가합니다.
 
 ```csharp
 using System;
@@ -194,11 +191,10 @@ namespace Extensions
 }
 ```
 
-Note that for an extension method to become available (2), the namespace with
-the type containing the extension method must be imported (1). Rust offers a
-very similar facility via traits, called _extension traits_. The following
-example in Rust is the equivalent of the C# example above; it extends `String`
-with the method `wrap`:
+확장 메서드를 사용하려면 (1) 해당 메서드가 들어 있는 타입의
+네임스페이스를 가져와야 (2) 메서드를 호출할 수 있습니다. Rust에서는
+_확장 트레이트_로 비슷한 기능을 구현합니다. 다음 Rust 예제는
+`String`에 `wrap` 메서드를 추가합니다.
 
 ```rust
 #![allow(dead_code)]
@@ -225,64 +221,61 @@ fn main() {
 }
 ```
 
-Just like in C#, for the method in the extension trait to become available
-(2), the extension trait must be imported (1). Also note, the extension trait
-identifier `StrWrapExt` can itself be discarded via `_` at the time of import
-without affecting the availability of `wrap` for `String`.
+C#과 마찬가지로 확장 트레이트의 메서드를 사용하려면 (1) 트레이트를
+가져와야 (2) 메서드를 호출할 수 있습니다. 가져올 때 트레이트 이름
+`StrWrapExt`를 `_`로 버려도 `String`의 `wrap` 메서드는 계속 사용할
+수 있습니다.
 
-## Visibility/Access Modifiers
+## 가시성과 접근 한정자
 
-C# has a number of accessibility or visibility modifiers:
+C#에는 다음과 같은 접근 한정자가 있습니다.
 
 - `private`
 - `protected`
 - `internal`
-- `protected internal` (family)
+- `protected internal`(패밀리)
 - `public`
 
-In Rust, a compilation is built-up of a tree of modules where modules contain
-and define [_items_][items] like types, traits, enums, constants and
-functions. Almost everything is private by default. One exception is, for
-example, _associated items_ in a public trait, which are public by default.
-This is similar to how members of a C# interface declared without any public
-modifiers in the source code are public by default. Rust only has the `pub`
-modifier to change the visibility with respect to the module tree. There
-are variations of `pub` that change the scope of the public visibility:
+Rust 프로그램은 모듈로 이루어진 트리로 구성됩니다. 모듈에는 타입,
+트레이트, 열거형, 상수, 함수 같은 [_항목_][items]을 정의합니다.
+거의 모든 항목은 기본적으로 비공개입니다. 예외적으로 공개 트레이트의
+연관 항목은 기본적으로 공개됩니다. C# 인터페이스에서 `public`을
+명시하지 않은 멤버가 기본적으로 공개되는 것과 비슷합니다. Rust에서는
+`pub` 한정자로 모듈 트리에 대한 가시성을 변경합니다. `pub`의 변형을
+사용하면 공개 범위를 더 좁게 지정할 수 있습니다.
 
 - `pub(self)`
 - `pub(super)`
 - `pub(crate)`
 - `pub(in PATH)`
 
-For more details, see the [Visibility and Privacy][privis] section of The Rust
-Reference.
+자세한 내용은 The Rust Reference의 [가시성과 비공개 범위][privis] 절에서
+확인할 수 있습니다.
 
-  [privis]: https://doc.rust-lang.org/reference/visibility-and-privacy.html
-  [items]: https://doc.rust-lang.org/reference/items.html
+[privis]: https://doc.rust-lang.org/reference/visibility-and-privacy.html
+[items]: https://doc.rust-lang.org/reference/items.html
 
-The table below is an approximation of the mapping of C# and Rust modifiers:
+다음 표는 C#과 Rust 한정자의 대략적인 대응 관계를 보여 줍니다.
 
-| C#                            | Rust         | Note        |
-| ----------------------------- | ------------ | ----------- |
-| `private`                     | (default)    | See note 1. |
-| `protected`                   | N/A          | See note 2. |
-| `internal`                    | `pub(crate)` |             |
-| `protected internal` (family) | N/A          | See note 2. |
-| `public`                      | `pub`        |             |
+| C#                            | Rust         | 비고      |
+| ----------------------------- | ------------ | --------- |
+| `private`                     | 기본값       | 주 1 참조 |
+| `protected`                   | 해당 없음    | 주 2 참조 |
+| `internal`                    | `pub(crate)` |           |
+| `protected internal`(패밀리)  | 해당 없음    | 주 2 참조 |
+| `public`                      | `pub`        |           |
 
-1. There is no keyword to denote private visibility; it's the default in Rust.
+1. Rust에서는 비공개 가시성을 나타내는 별도 키워드가 없습니다. 기본값이
+   비공개입니다.
+2. Rust에는 클래스 기반 타입 계층이 없으므로 `protected`에 대응하는
+   한정자가 없습니다.
 
-2. Since there are no class-based type hierarchies in Rust, there is no
-   equivalent of `protected`.
+## 가변성
 
-## Mutability
-
-When designing a type in C#, it is the responsibility of the developer to
-decide whether a type is mutable or immutable; whether it supports
-destructive or non-destructive mutations. C# does support an immutable design
-for types with a _positional record declaration_ (`record class` or `readonly
-record struct`). In Rust, mutability is expressed on methods through the type
-of the `self` parameter as shown in the example below:
+C#에서 타입이 변경 가능한지와 파괴적 또는 비파괴적 변경을 지원하는지는
+개발자가 설계합니다. C#의 위치 기반 레코드 선언(`record class` 또는
+`readonly record struct`)은 불변 설계를 지원합니다. Rust에서는
+다음 예제처럼 `self` 매개변수의 타입으로 메서드의 가변성을 표현합니다.
 
 ```rust
 struct Point { x: i32, y: i32 }
@@ -304,7 +297,7 @@ impl Point {
 }
 ```
 
-In C#, you can do non-destructive mutations using `with`:
+C#에서는 `with`로 비파괴적 변경을 할 수 있습니다.
 
 ```c#
 var pt = new Point(123, 456);
@@ -314,8 +307,8 @@ Console.WriteLine(pt.ToString()); // prints: Point { X = 789, Y = 456 }
 readonly record struct Point(int X, int Y);
 ```
 
-There is no `with` in Rust, but to emulate something similar in Rust, it has
-to be baked into the type's design:
+Rust에는 `with`가 없습니다. 비슷한 동작이 필요하면 타입을 설계할
+때 이를 구현해야 합니다.
 
 ```rust
 struct Point { x: i32, y: i32 }
@@ -335,8 +328,8 @@ impl Point {
 }
 ```
 
-In C#, `with` can also be used with a regular (as opposed to record) `struct`
-that publicly exposes its read-write fields:
+C#의 `with`는 읽고 쓸 수 있는 필드를 공개한 일반 `struct`에도
+사용할 수 있습니다. 레코드가 아니어도 됩니다.
 
 ```c#
 struct Point
@@ -353,7 +346,7 @@ pt = pt with { X = 789 };
 Console.WriteLine(pt.ToString()); // prints: (789, 456)
 ```
 
-Rust has a _[struct update syntax]_ that may seem similar:
+Rust의 _[구조체 갱신 구문]_은 이와 비슷해 보일 수 있습니다.
 
 ```rust
 mod points {
@@ -370,10 +363,10 @@ fn main() {
 }
 ```
 
-However, while `with` in C# does a non-destructive mutation (copy then
-update), the [struct update syntax] does (partial) _moves_ and works with
-fields only. Since the syntax requires access to the type's fields, it is
-generally more common to use it within the Rust module that has access to
-private details of its types.
+C#의 `with`는 복사한 뒤 값을 바꾸는 비파괴적 변경을 수행합니다.
+반면 [구조체 갱신 구문]은 필드에 대해서만 작동하며 값의 일부를
+_이동_합니다. 이 구문을 사용하려면 타입의 필드에 접근할 수 있어야
+하므로 비공개 세부 사항에 접근할 수 있는 Rust 모듈 안에서 더 자주
+사용합니다.
 
-  [struct update syntax]: https://doc.rust-lang.org/stable/book/ch05-01-defining-structs.html#creating-instances-from-other-instances-with-struct-update-syntax
+[구조체 갱신 구문]: https://doc.rust-lang.org/stable/book/ch05-01-defining-structs.html#creating-instances-from-other-instances-with-struct-update-syntax

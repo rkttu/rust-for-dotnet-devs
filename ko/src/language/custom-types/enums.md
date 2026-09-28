@@ -1,6 +1,6 @@
-# Enumeration types (`enum`)
+# 열거형(`enum`)
 
-In C#, an `enum` is a value type that maps symbolic names to integral values:
+C#의 `enum`은 기호 이름을 정수 값에 대응시키는 값 타입입니다.
 
 ```c#
 enum DayOfWeek
@@ -15,7 +15,7 @@ enum DayOfWeek
 }
 ```
 
-Rust has practically _identical_ syntax for doing the same:
+Rust에서도 거의 같은 구문으로 열거형을 정의합니다.
 
 ```rust
 enum DayOfWeek
@@ -30,11 +30,10 @@ enum DayOfWeek
 }
 ```
 
-Unlike in .NET, an instance of an `enum` type in Rust does not have any
-pre-defined behaviour that's inherited. It cannot even participate in equality
-checks as simple as `dow == DayOfWeek::Friday`. To bring it somewhat on par in
-function with an `enum` in C#, use [the `#[derive]` attribute][derive] to
-automatically have macros implement the commonly needed functionality:
+.NET과 달리 Rust의 `enum` 인스턴스에는 상속받는 기본 동작이
+없습니다. 처음에는 `dow == DayOfWeek::Friday` 같은 동등성 비교도
+할 수 없습니다. C#의 `enum`에서 흔히 쓰는 기능을 갖추려면
+[`#[derive]` 특성][derive]으로 필요한 구현을 자동 생성합니다.
 
 ```rust,does_not_compile
 #[derive(Debug,     // enables formatting in "{:?}"
@@ -71,10 +70,10 @@ fn main() {
 }
 ```
 
-As the example above shows, an `enum` can be coerced to its assigned integral
-value, but the opposite is not possible as in C# (although that sometimes has
-the downside in C#/.NET that an `enum` instance can hold an unrepresented
-value). Instead, it's up to the developer to provide such a helper function:
+위 예제처럼 열거형을 지정된 정수 값으로 변환할 수 있습니다. 반대
+방향의 변환은 C#처럼 바로 할 수 없습니다. C#/.NET에서는 표현하지
+않은 정수 값이 `enum` 인스턴스에 들어갈 수 있다는 단점도 있습니다.
+Rust에서는 변환을 위한 보조 함수를 직접 만들 수 있습니다.
 
 ```rust
 impl DayOfWeek {
@@ -94,9 +93,9 @@ impl DayOfWeek {
 }
 ```
 
-The `try_from_i32` function returns a `DayOfWeek` in a `Result` indicating success
-(`Ok`) if `n` is valid. Otherwise it returns `n` as-is in a `Result`
-indicating failure (`Err`):
+`try_from_i32` 함수는 `n`이 올바르면 성공을 나타내는 `Ok`와
+`DayOfWeek`를 `Result`로 반환합니다. 그렇지 않으면 실패를
+나타내는 `Err`에 원래 `n`을 담아 반환합니다.
 
 ```rust
 let dow = DayOfWeek::try_from_i32(5);
@@ -106,12 +105,11 @@ let dow = DayOfWeek::try_from_i32(50);
 println!("{dow:?}"); // prints: Err(50)
 ```
 
-There exist crates in Rust that can help with implementing such mapping from
-integral types instead of having to code them manually.
+정수 타입과 열거형 사이의 변환을 직접 구현하지 않아도 되도록 돕는
+Rust crate도 있습니다.
 
-An `enum` type in Rust can also serve as a way to design (discriminated) union
-types, which allow different _variants_ to hold data specific to each variant.
-For example:
+Rust의 `enum`으로는 각 변형이 서로 다른 데이터를 담는 _구분된
+유니언_ 타입도 설계할 수 있습니다. 다음 예제를 살펴보겠습니다.
 
 ```rust
 enum IpAddr {
@@ -123,8 +121,8 @@ let home = IpAddr::V4(127, 0, 0, 1);
 let loopback = IpAddr::V6(String::from("::1"));
 ```
 
-This form of `enum` declaration does not exist in C#, but it can be emulated
-with (class) records:
+C#에는 같은 형태의 `enum` 선언이 없지만 클래스 레코드로 비슷하게
+표현할 수 있습니다.
 
 ```c#
 var home = new IpAddr.V4(127, 0, 0, 1);
@@ -137,14 +135,12 @@ abstract record IpAddr
 }
 ```
 
-The difference between the two is that the Rust definition produces a _closed
-type_ over the variants. In other words, the compiler knows that there will be
-no other variants of `IpAddr` except `IpAddr::V4` and `IpAddr::V6`, and it can
-use that knowledge to make stricter checks. For example, in a `match`
-expression that's akin to C#'s `switch` expression, the Rust compiler will
-fail code unless all variants are covered. In contrast, the emulation with C#
-actually creates a class hierarchy (albeit very succinctly expressed) and
-since `IpAddr` is an _abstract base class_, the set of all types it can
-represent is unknown to the compiler.
+Rust의 정의는 변형의 집합이 고정된 _닫힌 타입_을 만듭니다.
+컴파일러는 `IpAddr`에 `IpAddr::V4`와 `IpAddr::V6` 이외의 변형이
+없다는 사실을 압니다. 따라서 C#의 `switch` 식과 비슷한 Rust의
+`match` 식에서 모든 변형을 다루지 않으면 컴파일 오류를 냅니다.
+반면 C# 레코드로 흉내 낸 형태는 간결해 보이더라도 클래스 계층을
+만듭니다. `IpAddr`가 _추상 기본 클래스_이므로 컴파일러는 이 타입이
+표현할 수 있는 모든 하위 타입을 알지 못합니다.
 
-  [derive]: https://doc.rust-lang.org/stable/reference/attributes/derive.html
+[derive]: https://doc.rust-lang.org/stable/reference/attributes/derive.html

@@ -1,30 +1,27 @@
-# Structures (`struct`)
+# 구조체(`struct`)
 
-Structures in Rust and C# share a few similarities:
+Rust와 C#의 구조체에는 몇 가지 공통점이 있습니다.
 
-- They are defined with the `struct` keyword, but in Rust, `struct` simply
-  defines the data/fields. The behavioural aspects in terms of functions and
-  methods, are defined separately in an _implementation block_ (`impl`).
+- 두 언어 모두 `struct` 키워드로 정의합니다. Rust의 `struct`는 데이터와
+  필드만 정의하며 함수와 메서드로 표현하는 동작은 별도의 _구현 블록_
+  (`impl`)에 작성합니다.
+- C# 구조체가 여러 인터페이스를 구현할 수 있듯 Rust 구조체도 여러
+  트레이트를 구현할 수 있습니다.
+- 구조체를 상속해 하위 클래스를 만들 수 없습니다.
+- 기본적으로 스택에 할당되지만 다음 경우에는 달라집니다.
+  - .NET에서 박싱하거나 인터페이스로 변환한 경우
+  - Rust에서 `Box`, `Rc`, `Arc` 같은 스마트 포인터로 감싼 경우
 
-- They can implement multiple traits in Rust just as they can implement
-  multiple interfaces in C#.
+C#의 `struct`는 .NET의 _값 타입_을 모델링합니다. 도메인에 특화된
+기본 값이나 값 동등성 의미를 가진 복합 값을 표현할 때 자주 사용합니다.
+Rust의 `struct`는 데이터 구조를 모델링하는 주요 구문이며 다른 하나는
+`enum`입니다.
 
-- They cannot be sub-classed.
+C#의 `struct`와 `record struct`에는 기본적으로 값 복사와 값
+동등성 의미가 있습니다. Rust에서 같은 기능을 얻으려면
+[`#[derive]` 특성][derive]으로 구현할 트레이트를 지정합니다.
 
-- They are allocated on stack by default, unless:
-  - In .NET, boxed or cast to an interface.
-  - In Rust, wrapped in a smart pointer like `Box`, `Rc`/`Arc`.
-
-In C#, a `struct` is a way to model a _value type_ in .NET, which is typically
-some domain-specific primitive or compound with value equality semantics. In
-Rust, a `struct` is the primary construct for modeling any data structure (the
-other being an `enum`).
-
-A `struct` (or `record struct`) in C# has copy-by-value and value equality
-semantics by default, but in Rust, this requires just one more step using [the
-`#derive` attribute][derive] and listing the traits to be implemented:
-
-  [derive]: https://doc.rust-lang.org/stable/reference/attributes/derive.html
+[derive]: https://doc.rust-lang.org/stable/reference/attributes/derive.html
 
 ```rust
 #[derive(Clone, Copy, PartialEq, Eq, Hash)]
@@ -34,19 +31,18 @@ struct Point {
 }
 ```
 
-Value types in C#/.NET are usually designed by a developer to be immutable.
-It's considered best practice speaking semantically, but the language does not
-prevent designing a `struct` that makes destructive or in-place modifications.
-In Rust, it's the same. A type has to be consciously developed to be
-immutable.
+C#/.NET에서는 대개 값 타입을 불변으로 설계합니다. 의미상 좋은
+설계로 여겨지지만 언어 자체가 `struct`의 제자리 수정을 막지는
+않습니다. Rust에서도 타입을 불변으로 설계하려면 개발자가 의도적으로
+구현해야 합니다.
 
-Since Rust doesn't have classes and consequently type hierarchies based on
-sub-classing, shared behaviour is achieved via traits and generics and
-polymorphism via virtual dispatch using [trait objects].
+Rust에는 클래스와 하위 클래스에 기반한 타입 계층이 없습니다. 여러
+타입이 동작을 공유할 때는 트레이트와 제네릭을 사용하며,
+[트레이트 객체]의 가상 디스패치로 다형성을 구현합니다.
 
-  [trait objects]: https://doc.rust-lang.org/book/ch17-02-trait-objects.html#using-trait-objects-that-allow-for-values-of-different-types
+[트레이트 객체]: https://doc.rust-lang.org/book/ch17-02-trait-objects.html#using-trait-objects-that-allow-for-values-of-different-types
 
-Consider the following `struct` representing a rectangle in C#:
+다음 C# `struct`는 직사각형을 나타냅니다.
 
 ```c#
 struct Rectangle
@@ -72,7 +68,7 @@ struct Rectangle
 }
 ```
 
-The equivalent in Rust would be:
+Rust에서 대응하는 코드는 다음과 같습니다.
 
 ```rust
 #![allow(dead_code)]
@@ -126,12 +122,11 @@ impl Display for Rectangle {
 }
 ```
 
-Note that a `struct` in C# inherits the `ToString` method from `object` and
-therefore it _overrides_ the base implementation to provide a custom string
-representation. Since there is no inheritance in Rust, the way a type
-advertises support for some _formatted_ representation is by implementing the
-`Display` trait. This then enables for an instance of the structure to
-participate in formatting, such as shown in the call to `println!` below:
+C#의 `struct`는 `object`에서 `ToString` 메서드를 상속하므로
+사용자 정의 문자열 표현이 필요하면 기본 구현을 _재정의_합니다.
+Rust에는 상속이 없습니다. 타입이 `Display` 트레이트를 구현하면
+포맷된 표현을 지원한다는 사실을 나타낼 수 있습니다. 그러면 다음
+`println!` 호출처럼 구조체 인스턴스를 포맷할 수 있습니다.
 
 ```rust
 fn main() {
