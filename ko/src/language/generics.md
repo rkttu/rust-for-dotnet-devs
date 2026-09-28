@@ -1,9 +1,9 @@
-# Generics
+# 제네릭
 
-Generics in C# provide a way to create definitions for types and methods that
-can be parameterized over other types. This improves code reuse, type-safety
-and performance (e.g. avoid run-time casts). Consider the following example
-of a generic type that adds a timestamp to any value:
+C#의 제네릭을 사용하면 다른 타입을 매개변수로 받는 타입과 메서드를
+정의할 수 있습니다. 코드 재사용과 타입 안전성을 높이고 실행 시간의
+캐스팅을 줄여 성능에도 도움이 됩니다. 다음 예제는 임의의 값에 시간
+정보를 덧붙이는 제네릭 타입입니다.
 
 ```csharp
 using System;
@@ -14,7 +14,7 @@ sealed record Timestamped<T>(DateTime Timestamp, T Value)
 }
 ```
 
-Rust also has generics as shown by the equivalent of the above:
+Rust에도 제네릭이 있습니다. 위 타입에 대응하는 코드는 다음과 같습니다.
 
 ```rust
 use std::time::*;
@@ -28,16 +28,16 @@ impl<T> Timestamped<T> {
 }
 ```
 
-See also:
+관련 자료:
 
-- [Generic data types]
+- [제네릭 데이터 타입]
 
-[Generic data types]: https://doc.rust-lang.org/book/ch10-01-syntax.html
+[제네릭 데이터 타입]: https://doc.rust-lang.org/book/ch10-01-syntax.html
 
-## Generic Type Constraints
+## 제네릭 타입 제약 조건
 
-In C#, [generic types can be constrained][type-constraints.cs] using the `where`
-clause. The following example shows such constraints in C#:
+C#에서는 `where` 절로 [제네릭 타입에 제약 조건][type-constraints.cs]을
+지정할 수 있습니다. 다음 예제에서 제약 조건을 확인할 수 있습니다.
 
 ```csharp
 using System;
@@ -59,7 +59,7 @@ sealed record Timestamped<T>(DateTime Timestamp, T Value) :
 }
 ```
 
-The same can be achieved in Rust:
+Rust에서도 같은 목적의 제약 조건을 작성할 수 있습니다.
 
 ```rust
 use std::time::*;
@@ -82,8 +82,8 @@ where
 }
 ```
 
-A shortcut for `where` clauses that exists in Rust is constraining the
-parameters directly at their declaration:
+Rust에서는 매개변수를 선언할 때 바로 제약 조건을 붙이는 짧은 형식도
+지원합니다.
 
 ```rust
 impl<T: PartialEq> PartialEq for Timestamped<T> {
@@ -93,24 +93,23 @@ impl<T: PartialEq> PartialEq for Timestamped<T> {
 }
 ```
 
-Although `where` clauses are somewhat more powerful, since they can constrain
-arbitrary types (e.g. `i32: PartialEq<T>`).
+다만 `where` 절은 `i32: PartialEq<T>`처럼 임의의 타입에도 제약
+조건을 지정할 수 있어 표현 범위가 더 넓습니다.
 
-Generic type constraints are called [bounds][bounds.rs] in Rust.
+Rust에서는 제네릭 타입 제약 조건을 [바운드][bounds.rs]라고 부릅니다.
 
-In the C# version, `Timestamped<T>` instances can _only_ be created for `T`
-which implement `IEquatable<T>` themselves, but note that the Rust version is
-more flexible because `Timestamped<T>` _conditionally implements_ `PartialEq`.
-This means that `Timestamped<T>` instances can still be created for some
-non-equatable `T`, but then `Timestamped<T>` will not implement equality via
-`PartialEq` for such a `T`.
+C# 버전은 `T` 자체가 `IEquatable<T>`를 구현할 때만 `Timestamped<T>`
+인스턴스를 만들 수 있습니다. Rust 버전에서는 `Timestamped<T>`가
+조건부로 `PartialEq`를 구현하므로 적용 범위가 더 넓습니다.
+동등성 비교를 지원하지 않는 `T`로도 `Timestamped<T>`를 만들 수
+있지만, 그 인스턴스에는 `PartialEq`를 통한 동등성 비교가 없습니다.
 
-See also:
+관련 자료:
 
-- [Traits as parameters]
-- [Returning types that implement traits]
+- [매개변수로 사용하는 트레이트]
+- [트레이트를 구현하는 타입 반환]
 
 [type-constraints.cs]: https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/generics/constraints-on-type-parameters
 [bounds.rs]: https://doc.rust-lang.org/rust-by-example/generics/bounds.html
-[Traits as parameters]: https://doc.rust-lang.org/book/ch10-02-traits.html#traits-as-parameters
-[Returning types that implement traits]: https://doc.rust-lang.org/book/ch10-02-traits.html#returning-types-that-implement-traits
+[매개변수로 사용하는 트레이트]: https://doc.rust-lang.org/book/ch10-02-traits.html#traits-as-parameters
+[트레이트를 구현하는 타입 반환]: https://doc.rust-lang.org/book/ch10-02-traits.html#returning-types-that-implement-traits

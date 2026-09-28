@@ -1,7 +1,7 @@
-# Operator Overloading
+# 연산자 오버로딩
 
-A custom type can overload an _overloadable operator_ in C#. Consider the
-following example in C#:
+C#에서는 사용자 정의 타입이 _오버로드 가능한 연산자_를 오버로드할 수
+있습니다. 다음 C# 예제를 살펴보겠습니다.
 
 ```csharp
 Console.WriteLine(new Fraction(5, 4) + new Fraction(1, 2));  // 14/8
@@ -15,9 +15,10 @@ public readonly record struct Fraction(int Numerator, int Denominator)
 }
 ```
 
-In Rust, many operators [can be overloaded via traits][ops.rs]. This is possible
-because operators are syntactic sugar for method calls. For example, the `+`
-operator in `a + b` calls the `add` method (see [operator overloading]):
+Rust의 여러 연산자는 [트레이트를 통해 오버로드할 수 있습니다][ops.rs].
+연산자가 메서드 호출을 간단하게 표현하는 구문이기 때문입니다. 예를
+들어 `a + b`의 `+` 연산자는 `add` 메서드를 호출합니다. 다음 예제와
+[연산자 오버로딩] 문서를 참고할 수 있습니다.
 
 ```rust
 use std::{fmt::{Display, Formatter, Result}, ops::Add};
@@ -54,4 +55,4 @@ fn main() {
 ```
 
 [ops.rs]: https://doc.rust-lang.org/core/ops/
-[operator overloading]: https://doc.rust-lang.org/rust-by-example/trait/ops.html
+[연산자 오버로딩]: https://doc.rust-lang.org/rust-by-example/trait/ops.html
