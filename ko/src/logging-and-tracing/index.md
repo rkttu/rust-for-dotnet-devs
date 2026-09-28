@@ -1,9 +1,8 @@
-# Logging and Tracing
+# 로깅과 추적
 
-.NET supports a number of logging APIs. For most cases, `ILogger` is a good
-default choice, since it works with a variety of built-in and third-party
-logging providers. In C#, a minimal example for structured logging could look
-like:
+.NET은 여러 로깅 API를 제공합니다. `ILogger`는 내장 로깅
+공급자와 타사 공급자를 폭넓게 지원하므로 대부분의 경우 기본
+선택으로 사용할 수 있습니다. 다음은 C#의 구조화된 로깅 예제입니다.
 
 ```csharp
 using Microsoft.Extensions.Logging;
@@ -13,16 +12,16 @@ var logger = loggerFactory.CreateLogger<Program>();
 logger.LogInformation("Hello {Day}.", "Thursday"); // Hello Thursday.
 ```
 
-In Rust, a lightweight logging facade is provided by [log][log.rs]. It has fewer
-features than `ILogger`, e.g. as it does not yet offer (stable) structured
-logging or logging scopes.
+Rust의 [log][log.rs] crate는 가벼운 로깅 파사드를 제공합니다.
+`ILogger`보다 기능이 적고 원문 작성 당시 안정적인 구조화 로깅이나
+로깅 범위를 제공하지 않았습니다.
 
-For something with more feature parity to .NET, Tokio offers
-[`tracing`][tracing.rs]. `tracing` is a framework for instrumenting Rust
-applications to collect structured, event-based diagnostic information.
-[`tracing_subscriber`][tracing-subscriber.rs] can be used to implement and
-compose `tracing` subscribers. The same structured logging example from above
-with `tracing` and `tracing_subscriber` looks like:
+.NET과 더 비슷한 기능이 필요하다면 Tokio의 [`tracing`][tracing.rs]을
+사용할 수 있습니다. `tracing`은 Rust 애플리케이션을 계측해 구조화된
+이벤트 기반 진단 정보를 수집하는 프레임워크입니다.
+[`tracing_subscriber`][tracing-subscriber.rs]로 `tracing`
+구독자를 구현하고 조합할 수 있습니다. 앞의 구조화 로깅을 이 두
+crate로 작성하면 다음과 같습니다.
 
 ```rust
 fn main() {
@@ -32,12 +31,11 @@ fn main() {
 }
 ```
 
-[OpenTelemetry][opentelemetry.rs] offers a collection of tools, APIs, and SDKs
-used to instrument, generate, collect, and export telemetry data based on the
-OpenTelemetry specification. At the time of writing, the [OpenTelemetry Logging
-API][opentelemetry-logging] is not yet stable and the Rust implementation [does
-not yet support logging][opentelemetry-status.rs], but the tracing API is
-supported.
+[OpenTelemetry][opentelemetry.rs]는 규격에 따라 원격 측정 데이터를
+계측, 생성, 수집, 내보내기 위한 도구와 API, SDK를 제공합니다.
+원문 작성 당시 [OpenTelemetry Logging API][opentelemetry-logging]는
+안정화되지 않았고 Rust 구현은 [로깅을 지원하지
+않았지만][opentelemetry-status.rs] 추적 API는 지원했습니다.
 
 [opentelemetry.rs]: https://crates.io/crates/opentelemetry
 [tracing-subscriber.rs]: https://docs.rs/tracing-subscriber/latest/tracing_subscriber/
